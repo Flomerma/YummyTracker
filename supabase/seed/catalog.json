@@ -1,0 +1,2562 @@
+{
+  "categories": [
+    {
+      "daysFreezer": 180,
+      "daysFridge": 7,
+      "daysOpened": 2,
+      "daysPantry": 4,
+      "defaultStorage": "fridge",
+      "name": "Frischobst",
+      "slug": "fresh-fruit",
+      "sortOrder": 10
+    },
+    {
+      "daysFreezer": 180,
+      "daysFridge": 7,
+      "daysOpened": 3,
+      "daysPantry": 4,
+      "defaultStorage": "fridge",
+      "name": "Frischgemüse",
+      "slug": "fresh-vegetables",
+      "sortOrder": 20
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 4,
+      "daysOpened": 2,
+      "daysPantry": 2,
+      "defaultStorage": "fridge",
+      "name": "Salat & frische Kräuter",
+      "slug": "salad-herbs",
+      "sortOrder": 30
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 30,
+      "daysOpened": 3,
+      "daysPantry": 21,
+      "defaultStorage": "pantry",
+      "name": "Kartoffeln, Zwiebeln & Lagergemüse",
+      "slug": "potatoes-root-vegetables",
+      "sortOrder": 40
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 7,
+      "daysOpened": 3,
+      "daysPantry": 90,
+      "defaultStorage": "fridge",
+      "name": "Milch & Rahm",
+      "slug": "milk-cream",
+      "sortOrder": 50
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 14,
+      "daysOpened": 3,
+      "daysPantry": 0,
+      "defaultStorage": "fridge",
+      "name": "Joghurt & Quark",
+      "slug": "yogurt-quark",
+      "sortOrder": 60
+    },
+    {
+      "daysFreezer": 90,
+      "daysFridge": 30,
+      "daysOpened": 14,
+      "daysPantry": 0,
+      "defaultStorage": "fridge",
+      "name": "Hart- & Halbhartkäse",
+      "slug": "hard-cheese",
+      "sortOrder": 70
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 12,
+      "daysOpened": 3,
+      "daysPantry": 0,
+      "defaultStorage": "fridge",
+      "name": "Weich- & Frischkäse",
+      "slug": "soft-cheese",
+      "sortOrder": 80
+    },
+    {
+      "daysFreezer": 180,
+      "daysFridge": 45,
+      "daysOpened": 21,
+      "daysPantry": 0,
+      "defaultStorage": "fridge",
+      "name": "Butter & Streichfette",
+      "slug": "butter-fats",
+      "sortOrder": 90
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 21,
+      "daysOpened": 0,
+      "daysPantry": 12,
+      "defaultStorage": "fridge",
+      "name": "Eier",
+      "slug": "eggs",
+      "sortOrder": 100
+    },
+    {
+      "daysFreezer": 120,
+      "daysFridge": 2,
+      "daysOpened": 1,
+      "daysPantry": 0,
+      "defaultStorage": "fridge",
+      "name": "Frischfleisch, Poulet & Hackfleisch",
+      "slug": "fresh-meat",
+      "sortOrder": 110
+    },
+    {
+      "daysFreezer": 60,
+      "daysFridge": 14,
+      "daysOpened": 3,
+      "daysPantry": 0,
+      "defaultStorage": "fridge",
+      "name": "Wurstwaren & Aufschnitt",
+      "slug": "sausages-cold-cuts",
+      "sortOrder": 120
+    },
+    {
+      "daysFreezer": 90,
+      "daysFridge": 1,
+      "daysOpened": 1,
+      "daysPantry": 0,
+      "defaultStorage": "fridge",
+      "name": "Fisch & Meeresfrüchte",
+      "slug": "fish-seafood",
+      "sortOrder": 130
+    },
+    {
+      "daysFreezer": 60,
+      "daysFridge": 8,
+      "daysOpened": 3,
+      "daysPantry": 0,
+      "defaultStorage": "fridge",
+      "name": "Kühlfrische Fertigprodukte & Fleischalternativen",
+      "slug": "chilled-convenience",
+      "sortOrder": 140
+    },
+    {
+      "daysFreezer": 270,
+      "daysFridge": 1,
+      "daysOpened": 90,
+      "daysPantry": 0,
+      "defaultStorage": "freezer",
+      "name": "Tiefkühlprodukte",
+      "slug": "frozen-food",
+      "sortOrder": 150
+    },
+    {
+      "daysFreezer": 90,
+      "daysFridge": 6,
+      "daysOpened": 2,
+      "daysPantry": 3,
+      "defaultStorage": "pantry",
+      "name": "Brot & Backwaren",
+      "slug": "bread-bakery",
+      "sortOrder": 160
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 0,
+      "daysOpened": 90,
+      "daysPantry": 365,
+      "defaultStorage": "pantry",
+      "name": "Teigwaren, Reis & Müesli",
+      "slug": "pasta-rice-cereals",
+      "sortOrder": 170
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 0,
+      "daysOpened": 120,
+      "daysPantry": 270,
+      "defaultStorage": "pantry",
+      "name": "Mehl, Zucker & Backzutaten",
+      "slug": "flour-baking",
+      "sortOrder": 180
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 0,
+      "daysOpened": 3,
+      "daysPantry": 730,
+      "defaultStorage": "pantry",
+      "name": "Konserven & Gläser",
+      "slug": "canned-jarred",
+      "sortOrder": 190
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 365,
+      "daysOpened": 28,
+      "daysPantry": 365,
+      "defaultStorage": "pantry",
+      "name": "Saucen, Senf & Mayonnaise",
+      "slug": "sauces-condiments",
+      "sortOrder": 200
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 0,
+      "daysOpened": 180,
+      "daysPantry": 365,
+      "defaultStorage": "pantry",
+      "name": "Öle & Essig",
+      "slug": "oils-vinegar",
+      "sortOrder": 210
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 0,
+      "daysOpened": 365,
+      "daysPantry": 730,
+      "defaultStorage": "pantry",
+      "name": "Gewürze, Bouillon & Trockensuppen",
+      "slug": "spices-broth",
+      "sortOrder": 220
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 365,
+      "daysOpened": 30,
+      "daysPantry": 365,
+      "defaultStorage": "pantry",
+      "name": "Konfitüre, Honig & süsse Aufstriche",
+      "slug": "sweet-spreads",
+      "sortOrder": 230
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 0,
+      "daysOpened": 14,
+      "daysPantry": 180,
+      "defaultStorage": "pantry",
+      "name": "Süsswaren, Snacks & Nüsse",
+      "slug": "sweets-snacks",
+      "sortOrder": 240
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 0,
+      "daysOpened": 60,
+      "daysPantry": 365,
+      "defaultStorage": "pantry",
+      "name": "Kaffee & Tee",
+      "slug": "coffee-tea",
+      "sortOrder": 250
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 90,
+      "daysOpened": 4,
+      "daysPantry": 365,
+      "defaultStorage": "pantry",
+      "name": "Getränke",
+      "slug": "beverages",
+      "sortOrder": 260
+    },
+    {
+      "daysFreezer": 0,
+      "daysFridge": 0,
+      "daysOpened": 0,
+      "daysPantry": 0,
+      "defaultStorage": "pantry",
+      "name": "Sonstiges",
+      "slug": "other",
+      "sortOrder": 999
+    }
+  ],
+  "products": [
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 270,
+      "daysOpened": 5,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Apfelsaft",
+      "normalizedName": "apfelsaft"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 180,
+      "daysOpened": 1,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Bier",
+      "normalizedName": "bier"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 270,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Cola",
+      "normalizedName": "cola"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 270,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Eistee",
+      "normalizedName": "eistee"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 365,
+      "daysOpened": 5,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Mineralwasser mit Kohlensäure",
+      "normalizedName": "mineralwasser mit kohlensaeure"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 365,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Mineralwasser ohne Kohlensäure",
+      "normalizedName": "mineralwasser ohne kohlensaeure"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 180,
+      "daysOpened": 4,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Orangensaft",
+      "normalizedName": "orangensaft"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 1095,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Rotwein",
+      "normalizedName": "rotwein"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 365,
+      "daysOpened": 45,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Sirup",
+      "normalizedName": "sirup"
+    },
+    {
+      "categorySlug": "beverages",
+      "daysDefaultStorage": 730,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Weisswein",
+      "normalizedName": "weisswein"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 1,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Baguette",
+      "normalizedName": "baguette"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Bauernbrot",
+      "normalizedName": "bauernbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Bürli",
+      "normalizedName": "buerli"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 10,
+      "daysOpened": 4,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Burgerbrötchen",
+      "normalizedName": "burgerbroetchen"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Ciabatta",
+      "normalizedName": "ciabatta"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Dinkelbrot",
+      "normalizedName": "dinkelbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 3,
+      "daysOpened": 2,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Fladenbrot",
+      "normalizedName": "fladenbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Gipfeli",
+      "normalizedName": "gipfeli"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 3,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Halbweissbrot",
+      "normalizedName": "halbweissbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 180,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Knäckebrot",
+      "normalizedName": "knaeckebrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Laugenbrezel",
+      "normalizedName": "laugenbrezel"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 21,
+      "daysOpened": 7,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Marmorcake",
+      "normalizedName": "marmorcake"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Muffin",
+      "normalizedName": "muffin"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Nussgipfel",
+      "normalizedName": "nussgipfel"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 7,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Pitabrot",
+      "normalizedName": "pitabrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 3,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Ruchbrot",
+      "normalizedName": "ruchbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Sauerteigbrot",
+      "normalizedName": "sauerteigbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 10,
+      "daysOpened": 6,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Toastbrot",
+      "normalizedName": "toastbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 60,
+      "daysOpened": 5,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Tortilla Wraps",
+      "normalizedName": "tortilla wraps"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Vollkornbrot",
+      "normalizedName": "vollkornbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 8,
+      "daysOpened": 5,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Vollkorntoastbrot",
+      "normalizedName": "vollkorntoastbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Weggli",
+      "normalizedName": "weggli"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Weissbrot",
+      "normalizedName": "weissbrot"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 3,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Zopf",
+      "normalizedName": "zopf"
+    },
+    {
+      "categorySlug": "bread-bakery",
+      "daysDefaultStorage": 180,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Zwieback",
+      "normalizedName": "zwieback"
+    },
+    {
+      "categorySlug": "butter-fats",
+      "daysDefaultStorage": 90,
+      "daysOpened": 45,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Bratbutter",
+      "normalizedName": "bratbutter"
+    },
+    {
+      "categorySlug": "butter-fats",
+      "daysDefaultStorage": 30,
+      "daysOpened": 14,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Butter",
+      "normalizedName": "butter"
+    },
+    {
+      "categorySlug": "butter-fats",
+      "daysDefaultStorage": 45,
+      "daysOpened": 21,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Margarine",
+      "normalizedName": "margarine"
+    },
+    {
+      "categorySlug": "butter-fats",
+      "daysDefaultStorage": 30,
+      "daysOpened": 14,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Streichbutter",
+      "normalizedName": "streichbutter"
+    },
+    {
+      "categorySlug": "canned-jarred",
+      "daysDefaultStorage": 540,
+      "daysOpened": 60,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Essiggurken",
+      "normalizedName": "essiggurken"
+    },
+    {
+      "categorySlug": "canned-jarred",
+      "daysDefaultStorage": 730,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Kidneybohnen",
+      "normalizedName": "kidneybohnen"
+    },
+    {
+      "categorySlug": "canned-jarred",
+      "daysDefaultStorage": 730,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Mais aus der Dose",
+      "normalizedName": "mais aus der dose"
+    },
+    {
+      "categorySlug": "canned-jarred",
+      "daysDefaultStorage": 730,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Pelati",
+      "normalizedName": "pelati"
+    },
+    {
+      "categorySlug": "canned-jarred",
+      "daysDefaultStorage": 730,
+      "daysOpened": 1,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Thon in der Dose",
+      "normalizedName": "thon in der dose"
+    },
+    {
+      "categorySlug": "canned-jarred",
+      "daysDefaultStorage": 730,
+      "daysOpened": 7,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Tomatenpüree",
+      "normalizedName": "tomatenpueree"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 10,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Falafel",
+      "normalizedName": "falafel"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Guacamole",
+      "normalizedName": "guacamole"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 21,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Hummus",
+      "normalizedName": "hummus"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 21,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Kuchenteig",
+      "normalizedName": "kuchenteig"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 10,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Pflanzliches Hackfleisch",
+      "normalizedName": "pflanzliches hackfleisch"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Pizzateig",
+      "normalizedName": "pizzateig"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 30,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Räuchertofu",
+      "normalizedName": "raeuchertofu"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 21,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Rauchtofu",
+      "normalizedName": "rauchtofu"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 21,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Tofu",
+      "normalizedName": "tofu"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 21,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Tofu natur",
+      "normalizedName": "tofu natur"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Veganes Geschnetzeltes",
+      "normalizedName": "veganes geschnetzeltes"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Vegi-Bratwurst",
+      "normalizedName": "vegi bratwurst"
+    },
+    {
+      "categorySlug": "chilled-convenience",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Vegi-Burger",
+      "normalizedName": "vegi burger"
+    },
+    {
+      "categorySlug": "coffee-tea",
+      "daysDefaultStorage": 365,
+      "daysOpened": 14,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Gemahlener Kaffee",
+      "normalizedName": "gemahlener kaffee"
+    },
+    {
+      "categorySlug": "coffee-tea",
+      "daysDefaultStorage": 365,
+      "daysOpened": 21,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Kaffeebohnen",
+      "normalizedName": "kaffeebohnen"
+    },
+    {
+      "categorySlug": "coffee-tea",
+      "daysDefaultStorage": 365,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Kaffeekapseln",
+      "normalizedName": "kaffeekapseln"
+    },
+    {
+      "categorySlug": "coffee-tea",
+      "daysDefaultStorage": 540,
+      "daysOpened": 270,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Kräutertee",
+      "normalizedName": "kraeutertee"
+    },
+    {
+      "categorySlug": "coffee-tea",
+      "daysDefaultStorage": 540,
+      "daysOpened": 270,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Schwarztee",
+      "normalizedName": "schwarztee"
+    },
+    {
+      "categorySlug": "eggs",
+      "daysDefaultStorage": 21,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Eier",
+      "normalizedName": "eier"
+    },
+    {
+      "categorySlug": "eggs",
+      "daysDefaultStorage": 14,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Gekochte Eier",
+      "normalizedName": "gekochte eier"
+    },
+    {
+      "categorySlug": "fish-seafood",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Crevetten",
+      "normalizedName": "crevetten"
+    },
+    {
+      "categorySlug": "fish-seafood",
+      "daysDefaultStorage": 1,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Eglifilet",
+      "normalizedName": "eglifilet"
+    },
+    {
+      "categorySlug": "fish-seafood",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Forellenfilet",
+      "normalizedName": "forellenfilet"
+    },
+    {
+      "categorySlug": "fish-seafood",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Kabeljaufilet",
+      "normalizedName": "kabeljaufilet"
+    },
+    {
+      "categorySlug": "fish-seafood",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Lachsfilet",
+      "normalizedName": "lachsfilet"
+    },
+    {
+      "categorySlug": "fish-seafood",
+      "daysDefaultStorage": 1,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Miesmuscheln",
+      "normalizedName": "miesmuscheln"
+    },
+    {
+      "categorySlug": "fish-seafood",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Räucherlachs",
+      "normalizedName": "raeucherlachs"
+    },
+    {
+      "categorySlug": "fish-seafood",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Surimi",
+      "normalizedName": "surimi"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 540,
+      "daysOpened": 90,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Backpulver",
+      "normalizedName": "backpulver"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 21,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Blätterteig",
+      "normalizedName": "blaetterteig"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Frischhefe",
+      "normalizedName": "frischhefe"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 120,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Gemahlene Haselnüsse",
+      "normalizedName": "gemahlene haselnuesse"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 540,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Kakaopulver",
+      "normalizedName": "kakaopulver"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 730,
+      "daysOpened": 365,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Maisstärke",
+      "normalizedName": "maisstaerke"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 540,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Puderzucker",
+      "normalizedName": "puderzucker"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 270,
+      "daysOpened": 60,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Rosinen",
+      "normalizedName": "rosinen"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 270,
+      "daysOpened": 90,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Ruchmehl",
+      "normalizedName": "ruchmehl"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 365,
+      "daysOpened": 90,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Trockenhefe",
+      "normalizedName": "trockenhefe"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 540,
+      "daysOpened": 90,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Vanillezucker",
+      "normalizedName": "vanillezucker"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 365,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Weissmehl",
+      "normalizedName": "weissmehl"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 365,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Zopfmehl",
+      "normalizedName": "zopfmehl"
+    },
+    {
+      "categorySlug": "flour-baking",
+      "daysDefaultStorage": 1095,
+      "daysOpened": 730,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Zucker",
+      "normalizedName": "zucker"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 4,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Ananas",
+      "normalizedName": "ananas"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 14,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Apfel",
+      "normalizedName": "apfel"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Aprikosen",
+      "normalizedName": "aprikosen"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 4,
+      "daysOpened": 1,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Avocado",
+      "normalizedName": "avocado"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Banane",
+      "normalizedName": "banane"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Birne",
+      "normalizedName": "birne"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Brombeeren",
+      "normalizedName": "brombeeren"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Erdbeeren",
+      "normalizedName": "erdbeeren"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Heidelbeeren",
+      "normalizedName": "heidelbeeren"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 2,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Himbeeren",
+      "normalizedName": "himbeeren"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 6,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Honigmelone",
+      "normalizedName": "honigmelone"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 8,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Kiwi",
+      "normalizedName": "kiwi"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 8,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Mandarine",
+      "normalizedName": "mandarine"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Nektarine",
+      "normalizedName": "nektarine"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 10,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Orange",
+      "normalizedName": "orange"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Pfirsich",
+      "normalizedName": "pfirsich"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 7,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Wassermelone",
+      "normalizedName": "wassermelone"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 6,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Weintrauben",
+      "normalizedName": "weintrauben"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Zitrone",
+      "normalizedName": "zitrone"
+    },
+    {
+      "categorySlug": "fresh-fruit",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Zwetschgen",
+      "normalizedName": "zwetschgen"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 3,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Entrecôte",
+      "normalizedName": "entrecote"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Ganzes Poulet",
+      "normalizedName": "ganzes poulet"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 1,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Hackfleisch gemischt",
+      "normalizedName": "hackfleisch gemischt"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 1,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Hacktätschli",
+      "normalizedName": "hacktaetschli"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Kalbsschnitzel",
+      "normalizedName": "kalbsschnitzel"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Lammkoteletts",
+      "normalizedName": "lammkoteletts"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 1,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Poulet-Geschnetzeltes",
+      "normalizedName": "poulet geschnetzeltes"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Pouletbrust",
+      "normalizedName": "pouletbrust"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Pouletschenkel",
+      "normalizedName": "pouletschenkel"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 3,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Rindsfilet",
+      "normalizedName": "rindsfilet"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 1,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Rindshackfleisch",
+      "normalizedName": "rindshackfleisch"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Rindsplätzli",
+      "normalizedName": "rindsplaetzli"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Rindsvoressen",
+      "normalizedName": "rindsvoressen"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Schweinsfilet",
+      "normalizedName": "schweinsfilet"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Schweinskotelett",
+      "normalizedName": "schweinskotelett"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Schweinsschnitzel",
+      "normalizedName": "schweinsschnitzel"
+    },
+    {
+      "categorySlug": "fresh-meat",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Trutenbrust",
+      "normalizedName": "trutenbrust"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Aubergine",
+      "normalizedName": "aubergine"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Blumenkohl",
+      "normalizedName": "blumenkohl"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Broccoli",
+      "normalizedName": "broccoli"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 4,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Champignons",
+      "normalizedName": "champignons"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 6,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Cherrytomaten",
+      "normalizedName": "cherrytomaten"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 7,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Fenchel",
+      "normalizedName": "fenchel"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 6,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Frühlingszwiebeln",
+      "normalizedName": "fruehlingszwiebeln"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Grüne Bohnen",
+      "normalizedName": "gruene bohnen"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 7,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Gurke",
+      "normalizedName": "gurke"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 7,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Kohlrabi",
+      "normalizedName": "kohlrabi"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 8,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Lauch",
+      "normalizedName": "lauch"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 7,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Peperoni",
+      "normalizedName": "peperoni"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 3,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Spinat",
+      "normalizedName": "spinat"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 7,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Stangensellerie",
+      "normalizedName": "stangensellerie"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 6,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Tomaten",
+      "normalizedName": "tomaten"
+    },
+    {
+      "categorySlug": "fresh-vegetables",
+      "daysDefaultStorage": 7,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Zucchetti",
+      "normalizedName": "zucchetti"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 270,
+      "daysOpened": 60,
+      "defaultStorage": "freezer",
+      "defaultUnit": "g",
+      "name": "Chicken Nuggets",
+      "normalizedName": "chicken nuggets"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 270,
+      "daysOpened": 60,
+      "defaultStorage": "freezer",
+      "defaultUnit": "piece",
+      "name": "Fischstäbchen",
+      "normalizedName": "fischstaebchen"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 365,
+      "daysOpened": 30,
+      "defaultStorage": "freezer",
+      "defaultUnit": "ml",
+      "name": "Glace",
+      "normalizedName": "glace"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 365,
+      "daysOpened": 90,
+      "defaultStorage": "freezer",
+      "defaultUnit": "g",
+      "name": "Pommes frites",
+      "normalizedName": "pommes frites"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 180,
+      "daysOpened": 90,
+      "defaultStorage": "freezer",
+      "defaultUnit": "piece",
+      "name": "Tiefkühl-Gipfeli",
+      "normalizedName": "tiefkuehl gipfeli"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 270,
+      "daysOpened": 60,
+      "defaultStorage": "freezer",
+      "defaultUnit": "g",
+      "name": "Tiefkühlbeeren",
+      "normalizedName": "tiefkuehlbeeren"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 365,
+      "daysOpened": 90,
+      "defaultStorage": "freezer",
+      "defaultUnit": "g",
+      "name": "Tiefkühlerbsen",
+      "normalizedName": "tiefkuehlerbsen"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 365,
+      "daysOpened": 90,
+      "defaultStorage": "freezer",
+      "defaultUnit": "g",
+      "name": "Tiefkühlgemüse-Mischung",
+      "normalizedName": "tiefkuehlgemuese mischung"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 270,
+      "daysOpened": 0,
+      "defaultStorage": "freezer",
+      "defaultUnit": "piece",
+      "name": "Tiefkühllasagne",
+      "normalizedName": "tiefkuehllasagne"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 270,
+      "daysOpened": 0,
+      "defaultStorage": "freezer",
+      "defaultUnit": "piece",
+      "name": "Tiefkühlpizza",
+      "normalizedName": "tiefkuehlpizza"
+    },
+    {
+      "categorySlug": "frozen-food",
+      "daysDefaultStorage": 365,
+      "daysOpened": 90,
+      "defaultStorage": "freezer",
+      "defaultUnit": "g",
+      "name": "Tiefkühlspinat",
+      "normalizedName": "tiefkuehlspinat"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 21,
+      "daysOpened": 8,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Appenzeller",
+      "normalizedName": "appenzeller"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 21,
+      "daysOpened": 10,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Emmentaler",
+      "normalizedName": "emmentaler"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 21,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Fondue-Mischung",
+      "normalizedName": "fondue mischung"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 21,
+      "daysOpened": 10,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Gruyère",
+      "normalizedName": "gruyere"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 21,
+      "daysOpened": 5,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Käsescheiben",
+      "normalizedName": "kaesescheiben"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 45,
+      "daysOpened": 21,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Parmesan",
+      "normalizedName": "parmesan"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 18,
+      "daysOpened": 7,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Raclettekäse",
+      "normalizedName": "raclettekaese"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 21,
+      "daysOpened": 5,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Reibkäse",
+      "normalizedName": "reibkaese"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 45,
+      "daysOpened": 21,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Sbrinz",
+      "normalizedName": "sbrinz"
+    },
+    {
+      "categorySlug": "hard-cheese",
+      "daysDefaultStorage": 18,
+      "daysOpened": 8,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Tilsiter",
+      "normalizedName": "tilsiter"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 7,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "ml",
+      "name": "Buttermilch",
+      "normalizedName": "buttermilch"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 14,
+      "daysOpened": 5,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Crème fraîche",
+      "normalizedName": "creme fraiche"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 150,
+      "daysOpened": 4,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Haferdrink",
+      "normalizedName": "haferdrink"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "ml",
+      "name": "Halbrahm",
+      "normalizedName": "halbrahm"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 90,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Kaffeerahm",
+      "normalizedName": "kaffeerahm"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 270,
+      "daysOpened": 7,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Kondensmilch",
+      "normalizedName": "kondensmilch"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 6,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "ml",
+      "name": "Milchdrink",
+      "normalizedName": "milchdrink"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 14,
+      "daysOpened": 4,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Sauerrahm",
+      "normalizedName": "sauerrahm"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 120,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "UHT-Vollmilch",
+      "normalizedName": "uht vollmilch"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 6,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "ml",
+      "name": "Vollmilch",
+      "normalizedName": "vollmilch"
+    },
+    {
+      "categorySlug": "milk-cream",
+      "daysDefaultStorage": 10,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "ml",
+      "name": "Vollrahm",
+      "normalizedName": "vollrahm"
+    },
+    {
+      "categorySlug": "oils-vinegar",
+      "daysDefaultStorage": 1095,
+      "daysOpened": 730,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Balsamico",
+      "normalizedName": "balsamico"
+    },
+    {
+      "categorySlug": "oils-vinegar",
+      "daysDefaultStorage": 540,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Olivenöl",
+      "normalizedName": "olivenoel"
+    },
+    {
+      "categorySlug": "oils-vinegar",
+      "daysDefaultStorage": 365,
+      "daysOpened": 120,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Rapsöl",
+      "normalizedName": "rapsoel"
+    },
+    {
+      "categorySlug": "oils-vinegar",
+      "daysDefaultStorage": 365,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Sonnenblumenöl",
+      "normalizedName": "sonnenblumenoel"
+    },
+    {
+      "categorySlug": "oils-vinegar",
+      "daysDefaultStorage": 1095,
+      "daysOpened": 730,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Weissweinessig",
+      "normalizedName": "weissweinessig"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 270,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Cornflakes",
+      "normalizedName": "cornflakes"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Frische Lasagneblätter",
+      "normalizedName": "frische lasagneblaetter"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 10,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Frische Ravioli",
+      "normalizedName": "frische ravioli"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Frische Tagliatelle",
+      "normalizedName": "frische tagliatelle"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 10,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Frische Tortellini",
+      "normalizedName": "frische tortellini"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 21,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Gnocchi",
+      "normalizedName": "gnocchi"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 365,
+      "daysOpened": 120,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Haferflocken",
+      "normalizedName": "haferflocken"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 730,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Hörnli",
+      "normalizedName": "hoernli"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 730,
+      "daysOpened": 365,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Langkornreis",
+      "normalizedName": "langkornreis"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 540,
+      "daysOpened": 365,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Linsen",
+      "normalizedName": "linsen"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 300,
+      "daysOpened": 60,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Müesli",
+      "normalizedName": "muesli"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 730,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Penne",
+      "normalizedName": "penne"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 365,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Polenta",
+      "normalizedName": "polenta"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 730,
+      "daysOpened": 365,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Risottoreis",
+      "normalizedName": "risottoreis"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Spätzli",
+      "normalizedName": "spaetzli"
+    },
+    {
+      "categorySlug": "pasta-rice-cereals",
+      "daysDefaultStorage": 730,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Spaghetti",
+      "normalizedName": "spaghetti"
+    },
+    {
+      "categorySlug": "salad-herbs",
+      "daysDefaultStorage": 10,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Basilikum",
+      "normalizedName": "basilikum"
+    },
+    {
+      "categorySlug": "salad-herbs",
+      "daysDefaultStorage": 7,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Eisbergsalat",
+      "normalizedName": "eisbergsalat"
+    },
+    {
+      "categorySlug": "salad-herbs",
+      "daysDefaultStorage": 4,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Kopfsalat",
+      "normalizedName": "kopfsalat"
+    },
+    {
+      "categorySlug": "salad-herbs",
+      "daysDefaultStorage": 3,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Nüsslisalat",
+      "normalizedName": "nuesslisalat"
+    },
+    {
+      "categorySlug": "salad-herbs",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Petersilie",
+      "normalizedName": "petersilie"
+    },
+    {
+      "categorySlug": "salad-herbs",
+      "daysDefaultStorage": 3,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Rucola",
+      "normalizedName": "rucola"
+    },
+    {
+      "categorySlug": "salad-herbs",
+      "daysDefaultStorage": 3,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Salatmischung",
+      "normalizedName": "salatmischung"
+    },
+    {
+      "categorySlug": "salad-herbs",
+      "daysDefaultStorage": 5,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Schnittlauch",
+      "normalizedName": "schnittlauch"
+    },
+    {
+      "categorySlug": "sauces-condiments",
+      "daysDefaultStorage": 540,
+      "daysOpened": 56,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Ketchup",
+      "normalizedName": "ketchup"
+    },
+    {
+      "categorySlug": "sauces-condiments",
+      "daysDefaultStorage": 365,
+      "daysOpened": 28,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Mayonnaise",
+      "normalizedName": "mayonnaise"
+    },
+    {
+      "categorySlug": "sauces-condiments",
+      "daysDefaultStorage": 21,
+      "daysOpened": 4,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Pesto frisch",
+      "normalizedName": "pesto frisch"
+    },
+    {
+      "categorySlug": "sauces-condiments",
+      "daysDefaultStorage": 365,
+      "daysOpened": 45,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Salatsauce",
+      "normalizedName": "salatsauce"
+    },
+    {
+      "categorySlug": "sauces-condiments",
+      "daysDefaultStorage": 540,
+      "daysOpened": 90,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Senf",
+      "normalizedName": "senf"
+    },
+    {
+      "categorySlug": "sauces-condiments",
+      "daysDefaultStorage": 730,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Sojasauce",
+      "normalizedName": "sojasauce"
+    },
+    {
+      "categorySlug": "sauces-condiments",
+      "daysDefaultStorage": 540,
+      "daysOpened": 4,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Tomatensauce",
+      "normalizedName": "tomatensauce"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 2,
+      "daysOpened": 1,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Bratwurst",
+      "normalizedName": "bratwurst"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 7,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Cervelat",
+      "normalizedName": "cervelat"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 5,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Fleischkäse",
+      "normalizedName": "fleischkaese"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Mortadella",
+      "normalizedName": "mortadella"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 21,
+      "daysOpened": 4,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Rohschinken",
+      "normalizedName": "rohschinken"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 21,
+      "daysOpened": 4,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Salami",
+      "normalizedName": "salami"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Schinken",
+      "normalizedName": "schinken"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 7,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Schüblig",
+      "normalizedName": "schueblig"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 21,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Speckwürfeli",
+      "normalizedName": "speckwuerfeli"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 30,
+      "daysOpened": 5,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Trockenfleisch",
+      "normalizedName": "trockenfleisch"
+    },
+    {
+      "categorySlug": "sausages-cold-cuts",
+      "daysDefaultStorage": 10,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Wienerli",
+      "normalizedName": "wienerli"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Brie",
+      "normalizedName": "brie"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Camembert",
+      "normalizedName": "camembert"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 30,
+      "daysOpened": 7,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Feta",
+      "normalizedName": "feta"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 21,
+      "daysOpened": 7,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Frischkäse",
+      "normalizedName": "frischkaese"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 45,
+      "daysOpened": 5,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Halloumi",
+      "normalizedName": "halloumi"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Hüttenkäse",
+      "normalizedName": "huettenkaese"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Mascarpone",
+      "normalizedName": "mascarpone"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Mozzarella",
+      "normalizedName": "mozzarella"
+    },
+    {
+      "categorySlug": "soft-cheese",
+      "daysDefaultStorage": 10,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Ricotta",
+      "normalizedName": "ricotta"
+    },
+    {
+      "categorySlug": "spices-broth",
+      "daysDefaultStorage": 540,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Gemüsebouillon",
+      "normalizedName": "gemuesebouillon"
+    },
+    {
+      "categorySlug": "spices-broth",
+      "daysDefaultStorage": 540,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Oregano getrocknet",
+      "normalizedName": "oregano getrocknet"
+    },
+    {
+      "categorySlug": "spices-broth",
+      "daysDefaultStorage": 540,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Paprikapulver",
+      "normalizedName": "paprikapulver"
+    },
+    {
+      "categorySlug": "spices-broth",
+      "daysDefaultStorage": 730,
+      "daysOpened": 365,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Pfeffer",
+      "normalizedName": "pfeffer"
+    },
+    {
+      "categorySlug": "spices-broth",
+      "daysDefaultStorage": 1825,
+      "daysOpened": 1825,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Salz",
+      "normalizedName": "salz"
+    },
+    {
+      "categorySlug": "spices-broth",
+      "daysDefaultStorage": 540,
+      "daysOpened": 365,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Zimt",
+      "normalizedName": "zimt"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 150,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Baumnüsse",
+      "normalizedName": "baumnuesse"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 180,
+      "daysOpened": 14,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Biscuits",
+      "normalizedName": "biscuits"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 180,
+      "daysOpened": 45,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Cashewkerne",
+      "normalizedName": "cashewkerne"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 90,
+      "daysOpened": 2,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Chips",
+      "normalizedName": "chips"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 180,
+      "daysOpened": 21,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Erdnüsse",
+      "normalizedName": "erdnuesse"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 270,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Gummibärli",
+      "normalizedName": "gummibaerli"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 240,
+      "daysOpened": 60,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Mandeln",
+      "normalizedName": "mandeln"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 180,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Müesliriegel",
+      "normalizedName": "mueesliriegel"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 180,
+      "daysOpened": 7,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Salzstangen",
+      "normalizedName": "salzstangen"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 365,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Schokolade",
+      "normalizedName": "schokolade"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 180,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Schokoriegel",
+      "normalizedName": "schokoriegel"
+    },
+    {
+      "categorySlug": "sweets-snacks",
+      "daysDefaultStorage": 180,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Studentenfutter",
+      "normalizedName": "studentenfutter"
+    },
+    {
+      "categorySlug": "yogurt-quark",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Fruchtjoghurt",
+      "normalizedName": "fruchtjoghurt"
+    },
+    {
+      "categorySlug": "yogurt-quark",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Griechisches Joghurt",
+      "normalizedName": "griechisches joghurt"
+    },
+    {
+      "categorySlug": "yogurt-quark",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Joghurt nature",
+      "normalizedName": "joghurt nature"
+    },
+    {
+      "categorySlug": "yogurt-quark",
+      "daysDefaultStorage": 12,
+      "daysOpened": 4,
+      "defaultStorage": "fridge",
+      "defaultUnit": "ml",
+      "name": "Kefir",
+      "normalizedName": "kefir"
+    },
+    {
+      "categorySlug": "yogurt-quark",
+      "daysDefaultStorage": 10,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Kräuterquark",
+      "normalizedName": "kraeuterquark"
+    },
+    {
+      "categorySlug": "yogurt-quark",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Magerquark",
+      "normalizedName": "magerquark"
+    },
+    {
+      "categorySlug": "yogurt-quark",
+      "daysDefaultStorage": 14,
+      "daysOpened": 3,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Skyr",
+      "normalizedName": "skyr"
+    },
+    {
+      "categorySlug": "yogurt-quark",
+      "daysDefaultStorage": 14,
+      "daysOpened": 2,
+      "defaultStorage": "fridge",
+      "defaultUnit": "ml",
+      "name": "Trinkjoghurt",
+      "normalizedName": "trinkjoghurt"
+    }
+  ]
+}

@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# yummytracker
 
-## Getting Started
+Ein Lebensmitteltracker für Haushalte. Er soll drei Dinge verhindern: dass Essen
+verdirbt, dass doppelt eingekauft wird, und dass Nötiges vergessen geht.
 
-First, run the development server:
+Der Kerngedanke: **Niemand pflegt einen Vorrat.** Der Bestand aktualisiert sich an
+den zwei Stellen, an denen ohnehin Aufmerksamkeit da ist — beim Auspacken des
+Einkaufs und kurz bevor etwas abläuft.
+
+Das vollständige Konzept mit Datenmodell, Architektur und Stufenplan steht in
+[`docs/superpowers/specs/2026-09-23-lebensmitteltracker-design.md`](docs/superpowers/specs/2026-09-23-lebensmitteltracker-design.md).
+
+Semesterarbeit GIBZ, Semester 7, Modul IIL.
+
+---
+
+## Einrichten
+
+### 1. Node
+
+Die Anwendung braucht Node 24 (siehe `.nvmrc`).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+node -v    # v24.x
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Abhängigkeiten
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Supabase-Projekt
 
-## Learn More
+Auf [supabase.com](https://supabase.com) ein Projekt anlegen (Gratis-Tarif genügt,
+Region Frankfurt oder Zürich). Dann:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cp .env.example .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+und in `.env.local` eintragen, was unter _Project Settings → API_ steht. Der
+öffentliche Schlüssel heisst je nach Alter des Projekts `publishable key`
+(`sb_publishable_…`) oder `anon key` (ein JWT). Beide Namen werden akzeptiert.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Unter _Authentication → URL Configuration_ müssen die Rückleitungsadressen
+eingetragen sein, sonst ignoriert Supabase sie stillschweigend und der Link in
+der Mail zeigt auf die falsche Adresse:
 
-## Deploy on Vercel
+```
+http://localhost:3000/auth/callback
+http://localhost:3000/auth/confirm
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4. Schema einspielen
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+export SUPABASE_ACCESS_TOKEN="…"        # supabase.com/dashboard/account/tokens
+npx supabase link --project-ref "<ref>"
+npm run db:push -- --dry-run            # erst trocken
+npm run db:push
+```
+
+> **Aus WSL heraus:** Der direkte Datenbank-Endpunkt `db.<ref>.supabase.co` ist
+> nur über IPv6 erreichbar. In reinen IPv4-Netzen scheitert `db:push` mit
+> `network is unreachable`. Dann die Session-Pooler-Adresse aus dem Dashboard
+> verwenden:
+> `npx supabase db push --db-url "postgresql://postgres.<ref>:<passwort>@aws-0-<region>.pooler.supabase.com:5432/postgres"`
+
+### 5. Starten
+
+```bash
+npm run dev     # http://localhost:3000
+```
+
+---
+
+## Befehle
+
+| Befehl                | Zweck                                                         |
+| --------------------- | ------------------------------------------------------------- |
+| `npm run dev`         | Entwicklungsserver                                            |
+| `npm run verify`      | Formatierung, Linter, Typen, Tests und Build — alles am Stück |
+| `npm test`            | Tests der Fachlogik und der Komponenten                       |
+| `npm run test:db`     | Zugriffsschutz-Nachweis gegen lokales PostgreSQL              |
+| `npm run db:new -- x` | Neue Migration anlegen                                        |
+| `npm run db:push`     | Migrationen ins Cloudprojekt spielen                          |
+
+`npm run db:diff` steht zwar zur Verfügung, braucht aber Docker und läuft in
+dieser Umgebung nicht. Migrationen werden deshalb von Hand geschrieben.
+
+---
+
+## Datenbanktests ohne Docker
+
+Der Zugriffsschutz ist das Erfolgskriterium, bei dem eine Zusicherung nichts
+wert ist — er muss belegt werden. `npm run test:db` baut dafür eine
+Wegwerf-Datenbank auf einem lokalen PostgreSQL auf, bildet mit einer schlanken
+Attrappe so viel von Supabase nach wie nötig (die Rollen, `auth.uid()`, die
+grosszügigen Vorgaberechte), spielt alle Migrationen ein und gibt sich dann
+nacheinander als verschiedene Personen aus.
+
+Einmalig einzurichten:
+
+```bash
+sudo apt-get install -y postgresql postgresql-contrib
+sudo service postgresql start
+```
+
+Das ersetzt die lokale Supabase-Umgebung nicht vollständig — Supabase Cloud
+fährt PostgreSQL 15 oder 17 und hat echte Rollen. Für Syntax, Richtlinienlogik,
+Trigger und Rechte ist der Nachweis aber tragfähig, und er läuft in Sekunden.
+
+---
+
+## Aufbau
+
+```
+app/            Seiten, Server-Komponenten, Server-Aktionen
+components/     Oberfläche
+lib/services/   Anwendungsfälle
+lib/domain/     reine Regeln     ← keine Datenbank, kein React, voll testbar
+lib/data/       Datenzugriff     ← die einzige Stelle mit Supabase-Aufrufen
+lib/ai/         KI-Adapter       ← ausschliesslich serverseitig
+supabase/       Migrationen, Startkatalog, Datenbanktests
+```
+
+Zwei Regeln tragen den grössten Teil der Codequalität, und beide werden vom
+Linter durchgesetzt statt nur empfohlen:
+
+- **`lib/domain/` kennt weder Datenbank noch Oberfläche.** Deshalb lässt sich
+  die Fachlogik ohne laufende Infrastruktur testen.
+- **`lib/data/` ist die einzige Stelle mit Supabase-Aufrufen.** Ein Import von
+  `@supabase/*` anderswo bricht `npm run lint` ab.
