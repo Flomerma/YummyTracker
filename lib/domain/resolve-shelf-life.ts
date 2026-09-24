@@ -5,7 +5,7 @@ import type {
   ShelfLifeOrigin,
   ShelfLifeResult,
   ShelfLifeRule,
-} from './types';
+} from "./types";
 
 /**
  * `resolveShelfLife` — the fallback chain of section 4.3, as code.
@@ -72,10 +72,10 @@ import type {
 
 /** Ordered best-first, purely for documentation and testing. */
 export const SHELF_LIFE_PRECISION = [
-  'household-product',
-  'global-product',
-  'household-category',
-  'global-category',
+  "household-product",
+  "global-product",
+  "household-category",
+  "global-category",
 ] as const;
 
 export type ShelfLifePrecision = (typeof SHELF_LIFE_PRECISION)[number];
@@ -96,16 +96,16 @@ interface ScoredRule {
  */
 function toExpirySource(
   rule: ShelfLifeRule,
-): Extract<ExpirySource, 'learned' | 'catalog' | 'category' | 'ai'> {
-  if (rule.scope === 'category') return 'category';
-  if (rule.source === 'learned') return 'learned';
-  if (rule.source === 'ai') return 'ai';
-  return 'catalog';
+): Extract<ExpirySource, "learned" | "catalog" | "category" | "ai"> {
+  if (rule.scope === "category") return "category";
+  if (rule.source === "learned") return "learned";
+  if (rule.source === "ai") return "ai";
+  return "catalog";
 }
 
 /** A day count is usable if it is a whole number of days and not negative. */
 function isUsableDays(days: unknown): days is number {
-  return typeof days === 'number' && Number.isInteger(days) && days >= 0;
+  return typeof days === "number" && Number.isInteger(days) && days >= 0;
 }
 
 function toOrigin(scored: ScoredRule): ShelfLifeOrigin {
@@ -113,9 +113,9 @@ function toOrigin(scored: ScoredRule): ShelfLifeOrigin {
   return {
     ruleId: rule.id,
     scope: rule.scope,
-    ownership: rule.householdId === null ? 'global' : 'household',
+    ownership: rule.householdId === null ? "global" : "household",
     ruleSource: rule.source,
-    storageMatch: scored.storageExact ? 'exact' : 'any',
+    storageMatch: scored.storageExact ? "exact" : "any",
     expirySource: toExpirySource(rule),
   };
 }
@@ -126,18 +126,19 @@ function scoreRules(input: ResolveShelfLifeInput): ScoredRule[] {
   const scored: ScoredRule[] = [];
 
   for (const rule of rules ?? []) {
-    if (!rule || typeof rule.id !== 'string') continue;
+    if (!rule || typeof rule.id !== "string") continue;
 
     // Another household's rule is never visible to us.
-    const isHouseholdRule = rule.householdId !== null && rule.householdId !== undefined;
+    const isHouseholdRule =
+      rule.householdId !== null && rule.householdId !== undefined;
     if (isHouseholdRule && rule.householdId !== householdId) continue;
 
     // Subject must match.
     let scopeRank: number;
-    if (rule.scope === 'product') {
+    if (rule.scope === "product") {
       if (productId === null || rule.productId !== productId) continue;
       scopeRank = 0;
-    } else if (rule.scope === 'category') {
+    } else if (rule.scope === "category") {
       if (categoryId === null || rule.categoryId !== categoryId) continue;
       scopeRank = 2;
     } else {
@@ -174,8 +175,8 @@ function compareScored(a: ScoredRule, b: ScoredRule): number {
   const sampleB = b.rule.sampleCount ?? 0;
   if (sampleA !== sampleB) return sampleB - sampleA; // more evidence first
 
-  const updatedA = a.rule.updatedAt ?? '';
-  const updatedB = b.rule.updatedAt ?? '';
+  const updatedA = a.rule.updatedAt ?? "";
+  const updatedB = b.rule.updatedAt ?? "";
   if (updatedA !== updatedB) return updatedA < updatedB ? 1 : -1; // newer first
 
   return a.rule.id < b.rule.id ? -1 : a.rule.id > b.rule.id ? 1 : 0;
@@ -183,7 +184,7 @@ function compareScored(a: ScoredRule, b: ScoredRule): number {
 
 function pick(
   scored: readonly ScoredRule[],
-  field: 'daysUnopened' | 'daysOpened',
+  field: "daysUnopened" | "daysOpened",
 ): ShelfLifeDays | null {
   for (const candidate of scored) {
     const days = candidate.rule[field];
@@ -208,8 +209,8 @@ export function resolveShelfLife(
   const scored = scoreRules(input);
   if (scored.length === 0) return null;
 
-  const unopened = pick(scored, 'daysUnopened');
-  const opened = pick(scored, 'daysOpened');
+  const unopened = pick(scored, "daysUnopened");
+  const opened = pick(scored, "daysOpened");
 
   if (unopened === null && opened === null) return null;
   return { unopened, opened };

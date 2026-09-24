@@ -1,4 +1,4 @@
-import type { Unit } from './types';
+import type { Unit } from "./types";
 
 /**
  * `normalizeQuantity` — folds every unit a receipt, a barcode database or a
@@ -59,26 +59,26 @@ export const VOLUME_TO_ML: Readonly<Record<string, number>> = {
 
 /** Everything that means "a countable thing". */
 export const PIECE_UNITS: ReadonlySet<string> = new Set([
-  'piece',
-  'pieces',
-  'pc',
-  'pcs',
-  'pce',
-  'stk',
-  'stck',
-  'stueck',
-  'stuck',
-  'st',
-  'x',
-  'er',
-  'anzahl',
-  'einheit',
-  'einheiten',
-  'pack',
-  'packung',
-  'bund',
-  'portion',
-  'portionen',
+  "piece",
+  "pieces",
+  "pc",
+  "pcs",
+  "pce",
+  "stk",
+  "stck",
+  "stueck",
+  "stuck",
+  "st",
+  "x",
+  "er",
+  "anzahl",
+  "einheit",
+  "einheiten",
+  "pack",
+  "packung",
+  "bund",
+  "portion",
+  "portionen",
 ]);
 
 /**
@@ -87,17 +87,17 @@ export const PIECE_UNITS: ReadonlySet<string> = new Set([
  * everything that is not a letter removed ("Stk." → "stk", "ML" → "ml").
  */
 function canonicalUnit(unit: string): string {
-  if (typeof unit !== 'string') return '';
+  if (typeof unit !== "string") return "";
   return unit
-    .normalize('NFC')
+    .normalize("NFC")
     .toLowerCase()
-    .replace(/ä/g, 'ae')
-    .replace(/ö/g, 'oe')
-    .replace(/ü/g, 'ue')
-    .replace(/ß/g, 'ss')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z]/g, '');
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z]/g, "");
 }
 
 /** Kills float noise without forcing whole numbers (500 mg must stay 0.5 g). */
@@ -115,25 +115,28 @@ function round(value: number): number {
  *   must never hand a `NaN` on to the database
  * - negative amounts pass through: a receipt correction line is a real thing
  */
-export function normalizeQuantity(qty: number, unit: string): NormalizedQuantity {
-  const amount = typeof qty === 'number' && Number.isFinite(qty) ? qty : 0;
+export function normalizeQuantity(
+  qty: number,
+  unit: string,
+): NormalizedQuantity {
+  const amount = typeof qty === "number" && Number.isFinite(qty) ? qty : 0;
   const key = canonicalUnit(unit);
 
   const massFactor = Object.prototype.hasOwnProperty.call(MASS_TO_G, key)
     ? MASS_TO_G[key]
     : undefined;
   if (massFactor !== undefined) {
-    return { qty: round(amount * massFactor), unit: 'g' };
+    return { qty: round(amount * massFactor), unit: "g" };
   }
 
   const volumeFactor = Object.prototype.hasOwnProperty.call(VOLUME_TO_ML, key)
     ? VOLUME_TO_ML[key]
     : undefined;
   if (volumeFactor !== undefined) {
-    return { qty: round(amount * volumeFactor), unit: 'ml' };
+    return { qty: round(amount * volumeFactor), unit: "ml" };
   }
 
   // PIECE_UNITS and every unknown unit land here. Listing the piece units
   // explicitly is still worth it as documentation of what we expect to see.
-  return { qty: round(amount), unit: 'piece' };
+  return { qty: round(amount), unit: "piece" };
 }

@@ -1,5 +1,5 @@
-import { diffInDays } from './date';
-import type { Urgency } from './types';
+import { diffInDays } from "./date";
+import type { Urgency } from "./types";
 
 /**
  * `bucketUrgency` — sorts an item into the bucket the inventory list and the
@@ -29,21 +29,28 @@ import type { Urgency } from './types';
  * do not know", and it keeps a broken row out of the mail instead of putting a
  * nonsense warning into it.
  */
-export function bucketUrgency(expiresAt: string | null, today: string): Urgency {
-  if (expiresAt === null || expiresAt === undefined) return 'unknown';
+export function bucketUrgency(
+  expiresAt: string | null,
+  today: string,
+): Urgency {
+  if (expiresAt === null || expiresAt === undefined) return "unknown";
 
   const days = diffInDays(today, expiresAt);
-  if (days === null) return 'unknown';
+  if (days === null) return "unknown";
 
-  if (days < 0) return 'expired';
-  if (days === 0) return 'today';
-  if (days === 1) return 'tomorrow';
-  if (days <= 7) return 'thisWeek';
-  return 'ok';
+  if (days < 0) return "expired";
+  if (days === 0) return "today";
+  if (days === 1) return "tomorrow";
+  if (days <= 7) return "thisWeek";
+  return "ok";
 }
 
 /** Buckets that mean "act now", in the order the UI shows them. */
-export const URGENT_BUCKETS: readonly Urgency[] = ['expired', 'today', 'tomorrow'];
+export const URGENT_BUCKETS: readonly Urgency[] = [
+  "expired",
+  "today",
+  "tomorrow",
+];
 
 /**
  * Sort weight for the inventory view, which orders by urgency rather than

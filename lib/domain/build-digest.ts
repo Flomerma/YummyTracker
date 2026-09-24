@@ -1,11 +1,11 @@
-import { bucketUrgency } from './bucket-urgency';
-import { diffInDays, isIsoDate } from './date';
+import { bucketUrgency } from "./bucket-urgency";
+import { diffInDays, isIsoDate } from "./date";
 import type {
   BuildDigestInput,
   DigestCandidateItem,
   DigestEntry,
   DigestResult,
-} from './types';
+} from "./types";
 
 /**
  * `buildDigest` — decides what goes into today's mail.
@@ -65,7 +65,7 @@ export function buildDigest(input: BuildDigestInput): DigestResult {
   const leadDays = normalizeLeadDays(input?.leadDays);
   const alreadyNotified = new Set(
     (input?.alreadyNotifiedItemIds ?? []).filter(
-      (id): id is string => typeof id === 'string',
+      (id): id is string => typeof id === "string",
     ),
   );
 
@@ -75,7 +75,11 @@ export function buildDigest(input: BuildDigestInput): DigestResult {
   for (const item of input?.items ?? []) {
     const entry = toEntry(item, today, leadDays, alreadyNotified);
     if (entry === null) continue;
-    if (entry.urgency === 'expired' || entry.urgency === 'today' || entry.urgency === 'tomorrow') {
+    if (
+      entry.urgency === "expired" ||
+      entry.urgency === "today" ||
+      entry.urgency === "tomorrow"
+    ) {
       urgent.push(entry);
     } else {
       soon.push(entry);
@@ -88,12 +92,14 @@ export function buildDigest(input: BuildDigestInput): DigestResult {
 }
 
 /** `true` when the date is a guess rather than something read off the package. */
-export function isEstimated(item: Pick<DigestCandidateItem, 'expirySource'>): boolean {
-  return item.expirySource !== 'label';
+export function isEstimated(
+  item: Pick<DigestCandidateItem, "expirySource">,
+): boolean {
+  return item.expirySource !== "label";
 }
 
 function normalizeLeadDays(value: number | undefined): number {
-  if (typeof value !== 'number' || !Number.isInteger(value) || value < 0) {
+  if (typeof value !== "number" || !Number.isInteger(value) || value < 0) {
     return DEFAULT_LEAD_DAYS;
   }
   return value;
@@ -105,11 +111,11 @@ function toEntry(
   leadDays: number,
   alreadyNotified: ReadonlySet<string>,
 ): DigestEntry | null {
-  if (!item || typeof item.id !== 'string') return null;
+  if (!item || typeof item.id !== "string") return null;
 
   // `status` is optional so callers may pass a pre-filtered active list; when
   // it is present it must say `active`.
-  if (item.status !== undefined && item.status !== 'active') return null;
+  if (item.status !== undefined && item.status !== "active") return null;
 
   if (alreadyNotified.has(item.id)) return null;
 
@@ -125,7 +131,7 @@ function toEntry(
 
   return {
     itemId: item.id,
-    displayName: typeof item.displayName === 'string' ? item.displayName : '',
+    displayName: typeof item.displayName === "string" ? item.displayName : "",
     expiresAt,
     expirySource: item.expirySource,
     daysLeft,
@@ -136,6 +142,7 @@ function toEntry(
 
 function compareEntries(a: DigestEntry, b: DigestEntry): number {
   if (a.expiresAt !== b.expiresAt) return a.expiresAt < b.expiresAt ? -1 : 1;
-  if (a.displayName !== b.displayName) return a.displayName < b.displayName ? -1 : 1;
+  if (a.displayName !== b.displayName)
+    return a.displayName < b.displayName ? -1 : 1;
   return a.itemId < b.itemId ? -1 : a.itemId > b.itemId ? 1 : 0;
 }

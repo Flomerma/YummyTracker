@@ -13,7 +13,7 @@
  */
 
 /** Canonical units. Everything else is folded into one of these three. */
-export type Unit = 'piece' | 'g' | 'ml';
+export type Unit = "piece" | "g" | "ml";
 
 /**
  * Where an item is kept.
@@ -22,38 +22,27 @@ export type Unit = 'piece' | 'g' | 'ml';
  * `inventory_items`, `intake_lines` and `shelf_life_rules` but never
  * enumerates its values. These three are the assumption of this layer.
  */
-export type StorageLocation = 'pantry' | 'fridge' | 'freezer';
+export type StorageLocation = "pantry" | "fridge" | "freezer";
 
 /** Provenance of an expiry date — mirrors `inventory_items.expiry_source`. */
 export type ExpirySource =
-  | 'label'
-  | 'learned'
-  | 'catalog'
-  | 'category'
-  | 'ai'
-  | 'manual'
-  | 'none';
+  "label" | "learned" | "catalog" | "category" | "ai" | "manual" | "none";
 
 /** Provenance of a shelf life rule — mirrors `shelf_life_rules.source`. */
-export type ShelfLifeRuleSource = 'seed' | 'ai' | 'learned';
+export type ShelfLifeRuleSource = "seed" | "ai" | "learned";
 
 /** Precision level of a shelf life rule — mirrors `shelf_life_rules.scope`. */
-export type ShelfLifeScope = 'product' | 'category';
+export type ShelfLifeScope = "product" | "category";
 
 /** Urgency buckets used by the inventory view and the daily digest. */
 export type Urgency =
-  | 'expired'
-  | 'today'
-  | 'tomorrow'
-  | 'thisWeek'
-  | 'ok'
-  | 'unknown';
+  "expired" | "today" | "tomorrow" | "thisWeek" | "ok" | "unknown";
 
 /** Lifecycle of an inventory item — mirrors `inventory_items.status`. */
-export type InventoryStatus = 'active' | 'consumed' | 'discarded';
+export type InventoryStatus = "active" | "consumed" | "discarded";
 
 /** Lifecycle of a shopping list row — mirrors `shopping_list_items.status`. */
-export type ShoppingListStatus = 'open' | 'checked' | 'cancelled';
+export type ShoppingListStatus = "open" | "checked" | "cancelled";
 
 /* -------------------------------------------------------------------------
  * resolveShelfLife
@@ -97,14 +86,14 @@ export interface ResolveShelfLifeInput {
 export interface ShelfLifeOrigin {
   readonly ruleId: string;
   readonly scope: ShelfLifeScope;
-  readonly ownership: 'household' | 'global';
+  readonly ownership: "household" | "global";
   readonly ruleSource: ShelfLifeRuleSource;
   /** Whether the rule named the storage explicitly or applies to any storage. */
-  readonly storageMatch: 'exact' | 'any';
+  readonly storageMatch: "exact" | "any";
   /** The `expiry_source` an item gets when this rule determines its date. */
   readonly expirySource: Extract<
     ExpirySource,
-    'learned' | 'catalog' | 'category' | 'ai'
+    "learned" | "catalog" | "category" | "ai"
   >;
 }
 
@@ -206,11 +195,11 @@ export interface DuplicateMatch {
   readonly quantity: number | null;
   readonly unit: Unit | null;
   /** How the two rows were linked. */
-  readonly via: 'productId' | 'normalizedName';
+  readonly via: "productId" | "normalizedName";
 }
 
 export interface DuplicateWarning {
-  readonly kind: 'in_stock' | 'already_on_list';
+  readonly kind: "in_stock" | "already_on_list";
   readonly items: readonly DuplicateMatch[];
 }
 

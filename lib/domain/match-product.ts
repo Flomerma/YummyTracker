@@ -1,5 +1,5 @@
-import { normalizeName } from './normalize-name';
-import type { ProductCandidate, ProductMatch } from './types';
+import { normalizeName } from "./normalize-name";
+import type { ProductCandidate, ProductMatch } from "./types";
 
 /**
  * `matchProduct` — fuzzy match of one receipt line against catalogue
@@ -152,7 +152,10 @@ export function bigramDice(
 }
 
 /** Mean best-partner similarity, in one direction. */
-function directedCoverage(from: readonly string[], to: readonly string[]): number {
+function directedCoverage(
+  from: readonly string[],
+  to: readonly string[],
+): number {
   if (from.length === 0) return 0;
   let total = 0;
   for (const token of from) {
@@ -180,7 +183,7 @@ function round3(value: number): number {
 }
 
 function tokenize(normalized: string): string[] {
-  return normalized.length === 0 ? [] : normalized.split(' ');
+  return normalized.length === 0 ? [] : normalized.split(" ");
 }
 
 /**
@@ -219,15 +222,16 @@ export function matchProduct(
   const scored: { match: ProductMatch; normalized: string }[] = [];
 
   for (const candidate of candidates) {
-    if (!candidate || typeof candidate.id !== 'string') continue;
+    if (!candidate || typeof candidate.id !== "string") continue;
 
     // Prefer the stored normalized_name, but re-normalize it so a stale row
     // written by an older version of normalizeName cannot poison the score.
     const stored =
-      typeof candidate.normalizedName === 'string' && candidate.normalizedName.length > 0
+      typeof candidate.normalizedName === "string" &&
+      candidate.normalizedName.length > 0
         ? candidate.normalizedName
         : candidate.name;
-    const normalized = normalizeName(typeof stored === 'string' ? stored : '');
+    const normalized = normalizeName(typeof stored === "string" ? stored : "");
     if (normalized.length === 0) continue;
 
     const confidence = scoreNames(query, normalized);
@@ -243,7 +247,11 @@ export function matchProduct(
     if (a.normalized.length !== b.normalized.length) {
       return a.normalized.length - b.normalized.length;
     }
-    return a.match.productId < b.match.productId ? -1 : a.match.productId > b.match.productId ? 1 : 0;
+    return a.match.productId < b.match.productId
+      ? -1
+      : a.match.productId > b.match.productId
+        ? 1
+        : 0;
   });
 
   return scored.map((entry) => entry.match);

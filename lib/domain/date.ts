@@ -26,7 +26,7 @@ const MS_PER_DAY = 86_400_000;
  * a typo look like a valid date.
  */
 export function parseIsoDate(value: unknown): number | null {
-  if (typeof value !== 'string') return null;
+  if (typeof value !== "string") return null;
   const match = ISO_DATE.exec(value);
   if (!match) return null;
 
@@ -55,9 +55,9 @@ export function isIsoDate(value: unknown): value is string {
 /** Formats a UTC epoch-millisecond value back to `'YYYY-MM-DD'`. */
 export function formatIsoDate(ms: number): string {
   const date = new Date(ms);
-  const year = String(date.getUTCFullYear()).padStart(4, '0');
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(date.getUTCDate()).padStart(2, '0');
+  const year = String(date.getUTCFullYear()).padStart(4, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 

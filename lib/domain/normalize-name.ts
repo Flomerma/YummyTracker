@@ -32,39 +32,39 @@
 
 /** Multi-word brand and marketing phrases, in normalized (space separated) form. */
 export const BRAND_NOISE_PHRASES: readonly string[] = [
-  'prix garantie',
-  'prixgarantie',
-  'qualite prix', // from "Qualité & Prix" — the "&" has become a space by now
-  'm classic',
-  'mclassic',
-  'm budget',
-  'mbudget',
-  'annas best',
-  'anna best',
+  "prix garantie",
+  "prixgarantie",
+  "qualite prix", // from "Qualité & Prix" — the "&" has become a space by now
+  "m classic",
+  "mclassic",
+  "m budget",
+  "mbudget",
+  "annas best",
+  "anna best",
 ];
 
 /** Single-word brand and marketing noise. Only ever removed as a whole token. */
 export const BRAND_NOISE_TOKENS: readonly string[] = [
-  'naturaplan',
-  'naturafarm',
-  'bio',
-  'aktion',
-  'coop',
-  'migros',
-  'denner',
-  'aldi',
-  'lidl',
+  "naturaplan",
+  "naturafarm",
+  "bio",
+  "aktion",
+  "coop",
+  "migros",
+  "denner",
+  "aldi",
+  "lidl",
 ];
 
 /** Umlauts and sharp s. Applied before generic diacritic stripping so that
  *  "ä" becomes "ae" rather than "a". */
 const GERMAN_LETTERS: readonly (readonly [RegExp, string])[] = [
-  [/ä/g, 'ae'],
-  [/ö/g, 'oe'],
-  [/ü/g, 'ue'],
-  [/ß/g, 'ss'],
+  [/ä/g, "ae"],
+  [/ö/g, "oe"],
+  [/ü/g, "ue"],
+  [/ß/g, "ss"],
   // Capital sharp s survives toLowerCase() in some engines; map it too.
-  [/ẞ/g, 'ss'],
+  [/ẞ/g, "ss"],
 ];
 
 /**
@@ -84,9 +84,9 @@ const GERMAN_LETTERS: readonly (readonly [RegExp, string])[] = [
  * and are untouched, because their "ee" never follows an a/o/u.
  */
 const DOUBLE_TRANSLITERATION: readonly (readonly [RegExp, string])[] = [
-  [/aee/g, 'ae'],
-  [/oee/g, 'oe'],
-  [/uee/g, 'ue'],
+  [/aee/g, "ae"],
+  [/oee/g, "oe"],
+  [/uee/g, "ue"],
 ];
 
 /**
@@ -114,7 +114,8 @@ const COMBINING_MARKS = /[̀-ͯ]/g;
 const NON_WORD = /[^\p{L}\p{N}]+/gu;
 
 const PHRASE_PATTERNS: readonly RegExp[] = BRAND_NOISE_PHRASES.map(
-  (phrase) => new RegExp(`(?<![\\p{L}\\p{N}])${phrase}(?![\\p{L}\\p{N}])`, 'gu'),
+  (phrase) =>
+    new RegExp(`(?<![\\p{L}\\p{N}])${phrase}(?![\\p{L}\\p{N}])`, "gu"),
 );
 
 const NOISE_TOKENS = new Set(BRAND_NOISE_TOKENS);
@@ -167,11 +168,11 @@ function singularize(token: string): string {
  * the same catalogue row. This also keeps the function idempotent.
  */
 export function normalizeName(raw: string): string {
-  if (typeof raw !== 'string' || raw.length === 0) return '';
+  if (typeof raw !== "string" || raw.length === 0) return "";
 
   // 1–2: unicode form, case, apostrophes, dashes
-  let text = raw.normalize('NFC').toLowerCase();
-  text = text.replace(APOSTROPHES, '').replace(DASHES, '-');
+  let text = raw.normalize("NFC").toLowerCase();
+  text = text.replace(APOSTROPHES, "").replace(DASHES, "-");
 
   // 3: German letters before generic diacritic stripping
   for (const [pattern, replacement] of GERMAN_LETTERS) {
@@ -184,20 +185,20 @@ export function normalizeName(raw: string): string {
   }
 
   // 5: remaining diacritics ("é" → "e", "à" → "a")
-  text = text.normalize('NFD').replace(COMBINING_MARKS, '').normalize('NFC');
+  text = text.normalize("NFD").replace(COMBINING_MARKS, "").normalize("NFC");
 
   // 6: quantities, while punctuation is still intact
-  text = text.replace(QUANTITY, ' ');
+  text = text.replace(QUANTITY, " ");
 
   // 7: punctuation → space, collapse
-  text = text.replace(NON_WORD, ' ').trim().replace(/\s+/g, ' ');
+  text = text.replace(NON_WORD, " ").trim().replace(/\s+/g, " ");
 
   const beforeBrandRemoval = text;
-  if (text.length === 0) return '';
+  if (text.length === 0) return "";
 
   // 8a: multi-word phrases first, so "m classic" goes before the token pass
   for (const pattern of PHRASE_PATTERNS) {
-    text = text.replace(pattern, ' ');
+    text = text.replace(pattern, " ");
   }
 
   // 8b + 9: single-word noise and the plural rule, in one token pass
@@ -206,14 +207,11 @@ export function normalizeName(raw: string): string {
     .filter((token) => token.length > 0 && !NOISE_TOKENS.has(token))
     .map(singularize);
 
-  const result = tokens.join(' ');
+  const result = tokens.join(" ");
 
   // Safety net (see doc comment)
   if (result.length === 0) {
-    return beforeBrandRemoval
-      .split(/\s+/)
-      .map(singularize)
-      .join(' ');
+    return beforeBrandRemoval.split(/\s+/).map(singularize).join(" ");
   }
 
   return result;

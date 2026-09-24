@@ -1,11 +1,11 @@
-import { normalizeName } from './normalize-name';
+import { normalizeName } from "./normalize-name";
 import type {
   DuplicateCandidate,
   DuplicateInventoryItem,
   DuplicateListItem,
   DuplicateMatch,
   DuplicateWarning,
-} from './types';
+} from "./types";
 
 /**
  * `detectDuplicate` — the warning that fires when somebody adds something to
@@ -48,11 +48,11 @@ export function detectDuplicate(
   if (!candidate) return null;
 
   const candidateProductId =
-    typeof candidate.productId === 'string' && candidate.productId.length > 0
+    typeof candidate.productId === "string" && candidate.productId.length > 0
       ? candidate.productId
       : null;
   const candidateName = normalizeName(
-    typeof candidate.freeText === 'string' ? candidate.freeText : '',
+    typeof candidate.freeText === "string" ? candidate.freeText : "",
   );
 
   // Nothing identifiable — the database constraint forbids this row anyway.
@@ -65,12 +65,16 @@ export function detectDuplicate(
     openList,
   );
   if (listMatches.length > 0) {
-    return { kind: 'already_on_list', items: listMatches };
+    return { kind: "already_on_list", items: listMatches };
   }
 
-  const stockMatches = collectStockMatches(candidateProductId, candidateName, inventory);
+  const stockMatches = collectStockMatches(
+    candidateProductId,
+    candidateName,
+    inventory,
+  );
   if (stockMatches.length > 0) {
-    return { kind: 'in_stock', items: stockMatches };
+    return { kind: "in_stock", items: stockMatches };
   }
 
   return null;
@@ -81,16 +85,20 @@ function matchVia(
   candidateName: string,
   otherProductId: string | null | undefined,
   otherName: string,
-): DuplicateMatch['via'] | null {
+): DuplicateMatch["via"] | null {
   if (
     candidateProductId !== null &&
-    typeof otherProductId === 'string' &&
+    typeof otherProductId === "string" &&
     otherProductId === candidateProductId
   ) {
-    return 'productId';
+    return "productId";
   }
-  if (candidateName.length > 0 && otherName.length > 0 && otherName === candidateName) {
-    return 'normalizedName';
+  if (
+    candidateName.length > 0 &&
+    otherName.length > 0 &&
+    otherName === candidateName
+  ) {
+    return "normalizedName";
   }
   return null;
 }
@@ -102,14 +110,14 @@ function collectListMatches(
   openList: readonly DuplicateListItem[],
 ): DuplicateMatch[] {
   const matches: DuplicateMatch[] = [];
-  const selfId = typeof candidate.id === 'string' ? candidate.id : null;
+  const selfId = typeof candidate.id === "string" ? candidate.id : null;
 
   for (const item of openList ?? []) {
-    if (!item || typeof item.id !== 'string') continue;
-    if (item.status !== 'open') continue;
+    if (!item || typeof item.id !== "string") continue;
+    if (item.status !== "open") continue;
     if (selfId !== null && item.id === selfId) continue; // editing its own row
 
-    const label = typeof item.freeText === 'string' ? item.freeText : '';
+    const label = typeof item.freeText === "string" ? item.freeText : "";
     const via = matchVia(
       candidateProductId,
       candidateName,
@@ -120,7 +128,8 @@ function collectListMatches(
 
     matches.push({
       id: item.id,
-      label: label.trim().length > 0 ? label.trim() : (item.productId ?? item.id),
+      label:
+        label.trim().length > 0 ? label.trim() : (item.productId ?? item.id),
       quantity: item.quantity ?? null,
       unit: item.unit ?? null,
       via,
@@ -137,10 +146,10 @@ function collectStockMatches(
   const matches: DuplicateMatch[] = [];
 
   for (const item of inventory ?? []) {
-    if (!item || typeof item.id !== 'string') continue;
-    if (item.status !== 'active') continue;
+    if (!item || typeof item.id !== "string") continue;
+    if (item.status !== "active") continue;
 
-    const label = typeof item.displayName === 'string' ? item.displayName : '';
+    const label = typeof item.displayName === "string" ? item.displayName : "";
     const via = matchVia(
       candidateProductId,
       candidateName,
@@ -151,7 +160,8 @@ function collectStockMatches(
 
     matches.push({
       id: item.id,
-      label: label.trim().length > 0 ? label.trim() : (item.productId ?? item.id),
+      label:
+        label.trim().length > 0 ? label.trim() : (item.productId ?? item.id),
       quantity: item.quantity ?? null,
       unit: item.unit ?? null,
       via,

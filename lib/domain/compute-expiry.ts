@@ -1,5 +1,9 @@
-import { addDays, isIsoDate, parseIsoDate } from './date';
-import type { ComputeExpiryInput, ComputeExpiryResult, ExpirySource } from './types';
+import { addDays, isIsoDate, parseIsoDate } from "./date";
+import type {
+  ComputeExpiryInput,
+  ComputeExpiryResult,
+  ExpirySource,
+} from "./types";
 
 /**
  * `computeExpiry` — turns what we know about an item into one date plus its
@@ -51,7 +55,7 @@ export function computeExpiry(input: ComputeExpiryInput): ComputeExpiryResult {
 
   // 1. A hand-typed date is the final word.
   if (manualDate !== null) {
-    return { expiresAt: manualDate, source: 'manual' };
+    return { expiresAt: manualDate, source: "manual" };
   }
 
   const isOpened = openedOn !== null;
@@ -59,7 +63,10 @@ export function computeExpiry(input: ComputeExpiryInput): ComputeExpiryResult {
   // The estimate for an opened item, counted from the day it was opened.
   const openedEstimate =
     isOpened && shelfLife?.opened
-      ? make(addDays(openedOn, shelfLife.opened.days), shelfLife.opened.origin.expirySource)
+      ? make(
+          addDays(openedOn, shelfLife.opened.days),
+          shelfLife.opened.origin.expirySource,
+        )
       : null;
 
   // The estimate for a sealed item, counted from the day it entered the house.
@@ -71,7 +78,7 @@ export function computeExpiry(input: ComputeExpiryInput): ComputeExpiryResult {
         )
       : null;
 
-  const labelCandidate = labelDate !== null ? make(labelDate, 'label') : null;
+  const labelCandidate = labelDate !== null ? make(labelDate, "label") : null;
 
   if (isOpened) {
     // The rule from the concept: the earlier of printed date and opened
@@ -93,13 +100,16 @@ export function computeExpiry(input: ComputeExpiryInput): ComputeExpiryResult {
   return NOTHING;
 }
 
-const NOTHING: ComputeExpiryResult = { expiresAt: null, source: 'none' };
+const NOTHING: ComputeExpiryResult = { expiresAt: null, source: "none" };
 
 function normalizeDate(value: string | null | undefined): string | null {
   return isIsoDate(value) ? value : null;
 }
 
-function make(date: string | null, source: ExpirySource): ComputeExpiryResult | null {
+function make(
+  date: string | null,
+  source: ExpirySource,
+): ComputeExpiryResult | null {
   return date === null ? null : { expiresAt: date, source };
 }
 
