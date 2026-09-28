@@ -1,18 +1,29 @@
 @import "tailwindcss";
 
+/*
+ * Gestaltung nach Konzept: ruhig, Handy zuerst, und FARBE AUSSCHLIESSLICH
+ * FUER DRINGLICHKEIT. Alles Uebrige ist neutral, damit ein roter Eintrag
+ * sofort auffaellt. Wer hier einen farbigen Knopf einbaut, nimmt der
+ * Ablaufwarnung ihre Wirkung.
+ *
+ * Bewusst KEIN Dunkelmodus: Die urspruengliche Vorlage schaltete bei
+ * dunklem Systemthema den Hintergrund um, waehrend die Seiten ihre
+ * Textfarbe fest auf dunkles Grau setzen — dunkel auf dunkel, unlesbar.
+ * Ein halber Dunkelmodus ist schlechter als keiner. Er gehoert nachgeholt,
+ * wenn die Bildschirme stehen, und dann vollstaendig.
+ */
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+}
+
+html {
+  /* Verhindert, dass iOS beim Fokussieren eines Eingabefeldes hineinzoomt. */
+  -webkit-text-size-adjust: 100%;
 }

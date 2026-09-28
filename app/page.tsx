@@ -1,11 +1,23 @@
-export default function HomePage() {
-  return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-4 p-6">
-      <h1 className="text-2xl font-semibold tracking-tight">yummytracker</h1>
-      <p className="text-sm opacity-80">
-        Das Gerüst steht. Ab hier entsteht Stufe 0: Anmeldung, Haushalt anlegen
-        und Einladungslink.
-      </p>
-    </main>
-  );
+import { redirect } from "next/navigation";
+
+import { currentContext } from "@/lib/services/current";
+
+/**
+ * Die Weiche.
+ *
+ * Es gibt bewusst keine Startseite mit Begruessung: Wer die App oeffnet,
+ * will wissen, was ablaeuft — nicht lesen, was die App kann. Jeder Zustand
+ * fuehrt deshalb sofort dorthin, wo es fuer ihn weitergeht.
+ *
+ * `redirect()` wirft eine Ausnahme, mit der Next.js die Umleitung ausloest.
+ * Sie darf nie in einem try-Block stehen, sonst faengt der catch sie ab und
+ * die Umleitung passiert nie.
+ */
+export default async function HomePage() {
+  const context = await currentContext();
+
+  if (context.state === "anonymous") redirect("/anmelden");
+  if (context.state === "no-household") redirect("/einstieg");
+
+  redirect("/vorrat");
 }
