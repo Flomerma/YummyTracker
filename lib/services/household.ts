@@ -69,14 +69,14 @@ export type { Household, HouseholdInvite, HouseholdMember, HouseholdResult };
  * einem Cookie, dem man glauben muesste. `sub` ist `auth.users.id` und damit
  * derselbe Schluessel, den `auth.uid()` in der Datenbank sieht.
  */
-async function currentUserId(): Promise<string | null> {
+export async function currentUserId(): Promise<string | null> {
   const claims = await getVerifiedClaims();
   const sub = claims?.sub;
 
   return typeof sub === "string" && sub !== "" ? sub : null;
 }
 
-interface Membership {
+export interface Membership {
   readonly userId: string;
   readonly me: HouseholdMember;
   readonly members: readonly HouseholdMember[];
@@ -87,7 +87,7 @@ interface Membership {
  * Haushalts ist, und liefert gleich die Mitgliederliste mit — die brauchen
  * die Aufrufer ohnehin, ein zweiter Rundgang waere verschenkt.
  */
-async function requireMembership(
+export async function requireMembership(
   householdId: string,
 ): Promise<HouseholdResult<Membership>> {
   const userId = await currentUserId();
