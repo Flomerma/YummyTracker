@@ -63,6 +63,20 @@ const AUTH_ERROR_MESSAGES: Readonly<Record<string, string>> = {
   bad_code_verifier:
     "Der Anmeldevorgang passt nicht zu diesem Browser. Bitte einen neuen Link anfordern und ihn im selben Browser oeffnen.",
   validation_failed: "Die Eingabe war unvollstaendig oder im falschen Format.",
+
+  // --- Anmeldung mit Passwort ------------------------------------------
+  // Bewusst KEINE Auskunft darueber, ob die Adresse existiert: Sonst wird
+  // das Anmeldeformular zum Verzeichnis darueber, wer ein Konto hat.
+  invalid_credentials: "E-Mail-Adresse oder Passwort stimmt nicht.",
+  weak_password:
+    "Das Passwort ist zu kurz oder zu einfach. Es braucht mindestens 8 Zeichen.",
+  user_already_exists:
+    "Zu dieser Adresse gibt es schon ein Konto. Bitte anmelden statt registrieren.",
+  email_exists:
+    "Zu dieser Adresse gibt es schon ein Konto. Bitte anmelden statt registrieren.",
+  email_not_confirmed:
+    "Diese Adresse ist noch nicht bestaetigt. Im Supabase-Dashboard unter Authentication > Sign In / Providers die Bestaetigungspflicht abschalten.",
+  same_password: "Das neue Passwort ist mit dem alten identisch.",
 };
 
 export function authErrorMessage(code: string | null | undefined): string {
@@ -95,4 +109,60 @@ export function isEmailTokenType(
   return (
     value != null && (EMAIL_TOKEN_TYPES as readonly string[]).includes(value)
   );
+}
+
+/* -------------------------------------------------------------------------
+ * Passwort
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Supabase weist Passwoerter unter dieser Laenge selbst ab. Hier steht
+ * derselbe Wert, damit der Hinweis schon im Formular erscheint statt erst
+ * nach einem Rundgang zum Server.
+ */
+export const PASSWORD_MIN_LENGTH = 8;
+
+/**
+ * Obergrenze, weil bcrypt nach 72 Byte abschneidet. Ohne diese Pruefung
+ * waeren zwei lange Passwoerter, die sich erst ab Zeichen 73 unterscheiden,
+ * gleichwertig — ein Fehler, der nie auffaellt.
+ */
+export const PASSWORD_MAX_LENGTH = 72;
+
+export type PasswordCheck =
+  | { readonly ok: true; readonly value: string }
+  | { readonly ok: false; readonly message: string };
+
+/**
+ * Prueft ein Passwort, bevor es ueberhaupt verschickt wird.
+ *
+ * Bewusst nur Laenge, keine Vorschriften ueber Sonderzeichen oder
+ * Grossbuchstaben: Solche Regeln erzeugen erwiesenermassen schlechtere
+ * Passwoerter ("Sommer2024!") und mehr Zettel am Bildschirm. Laenge ist
+ * das, was zaehlt.
+ */
+export function validatePassword(
+  raw: string | null | undefined,
+): PasswordCheck {
+  const value = typeof raw === "string" ? raw : "";
+
+  if (value.length === 0) {
+    return { ok: false, message: "Bitte ein Passwort eingeben." };
+  }
+  if (value.length < PASSWORD_MIN_LENGTH) {
+    return {
+      ok: false,
+      message: `Das Passwort braucht mindestens ${PASSWORD_MIN_LENGTH} Zeichen.`,
+    };
+  }
+  // In Byte messen, nicht in Zeichen: Ein Emoji belegt vier Byte, und
+  // abgeschnitten wird nach Byte.
+  if (new TextEncoder().encode(value).length > PASSWORD_MAX_LENGTH) {
+    return {
+      ok: false,
+      message: `Das Passwort darf hoechstens ${PASSWORD_MAX_LENGTH} Zeichen lang sein.`,
+    };
+  }
+
+  return { ok: true, value };
 }

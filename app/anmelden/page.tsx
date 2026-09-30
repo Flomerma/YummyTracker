@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { safeNextPath } from "@/lib/domain/auth";
 
-import { MagicLinkForm } from "./magic-link-form";
+import { AnmeldeFormular } from "./anmelde-formular";
 
 export const metadata: Metadata = {
   title: "Anmelden — yummytracker",
@@ -32,11 +32,11 @@ export default async function AnmeldenSeite({
         Anmelden
       </h1>
       <p className="mt-2 text-sm leading-relaxed text-neutral-600">
-        Wir schicken dir einen Zauber-Link per E-Mail. Ein Klick darin meldet
-        dich an — kein Passwort noetig.
+        Mit E-Mail-Adresse und Passwort. Beim ersten Mal auf „Konto erstellen“ —
+        es wird keine Bestätigungsmail verschickt, du bist sofort drin.
       </p>
 
-      <MagicLinkForm weiter={next} />
+      <AnmeldeFormular weiter={next} />
     </main>
   );
 }

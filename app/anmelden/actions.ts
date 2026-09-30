@@ -1,20 +1,41 @@
 "use server";
 
-import { getAppOrigin } from "@/lib/app-origin";
-import { sendMagicLink } from "@/lib/data/auth";
-import { isValidEmail, normalizeEmail, safeNextPath } from "@/lib/domain/auth";
-import type { MagicLinkState } from "@/app/anmelden/state";
+import type { Route } from "next";
+import { redirect } from "next/navigation";
+
+import { signInWithPassword, signUpWithPassword } from "@/lib/data/auth";
+import {
+  isValidEmail,
+  normalizeEmail,
+  safeNextPath,
+  validatePassword,
+} from "@/lib/domain/auth";
+
+import type { AnmeldenState } from "./state";
 
 /**
- * Aus einer Datei mit 'use server' darf nur Asynchrones als Wert exportiert
- * werden. Typ und Anfangszustand liegen deshalb in ./state.ts.
+ * Anmelden oder registrieren, je nachdem welcher Knopf gedrueckt wurde.
+ *
+ * Eine Aktion fuer beides, weil sich nur ein Aufruf unterscheidet — zwei
+ * Aktionen waeren zwei Formulare, zwei Zustaende und zweimal dieselbe
+ * Pruefung.
+ *
+ * Es wird KEINE Mail verschickt. Voraussetzung dafuer ist, dass im
+ * Supabase-Dashboard unter Authentication > Sign In / Providers > Email
+ * die Bestaetigungspflicht ("Confirm email") abgeschaltet ist. Ist sie
+ * aktiv, meldet lib/data/auth.ts das ausdruecklich zurueck, statt eine
+ * Anmeldung vorzutaeuschen, die keine ist.
+ *
+ * `redirect()` steht ausserhalb jeder Fehlerbehandlung: Es wirkt ueber
+ * eine Ausnahme, die ein catch verschlucken wuerde.
  */
-export async function requestMagicLinkAction(
-  _previous: MagicLinkState,
+export async function anmeldenAction(
+  _previous: AnmeldenState,
   formData: FormData,
-): Promise<MagicLinkState> {
+): Promise<AnmeldenState> {
   const email = normalizeEmail(String(formData.get("email") ?? ""));
   const next = safeNextPath(String(formData.get("weiter") ?? "/"));
+  const registrieren = String(formData.get("modus") ?? "") === "registrieren";
 
   if (!isValidEmail(email)) {
     return {
@@ -23,20 +44,16 @@ export async function requestMagicLinkAction(
     };
   }
 
-  // Absolute Adresse noetig: Supabase baut daraus den Link in der Mail.
-  const origin = await getAppOrigin();
-  const emailRedirectTo = `${origin}/auth/callback?next=${encodeURIComponent(next)}`;
-
-  // Dieser Aufruf schreibt das PKCE-Cookie. Das geht nur hier, in einer
-  // Server-Aktion — nicht beim Rendern der Seite.
-  const result = await sendMagicLink(email, emailRedirectTo);
-
-  if (!result.ok) {
-    return { status: "error", message: result.message };
+  const password = validatePassword(String(formData.get("passwort") ?? ""));
+  if (!password.ok) {
+    return { status: "error", message: password.message };
   }
 
-  // Kein redirect() hier: Die Nutzerin bleibt auf der Seite und liest
-  // "schau in dein Postfach". redirect() wuerde ausserdem eine Ausnahme
-  // werfen und duerfte nie in einem try-Block stehen.
-  return { status: "sent", email };
+  const result = registrieren
+    ? await signUpWithPassword(email, password.value)
+    : await signInWithPassword(email, password.value);
+
+  if (!result.ok) return { status: "error", message: result.message };
+
+  redirect(next as Route);
 }

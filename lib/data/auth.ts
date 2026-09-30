@@ -51,6 +51,75 @@ export async function sendMagicLink(
 }
 
 /**
+ * Meldet mit E-Mail und Passwort an.
+ *
+ * ----------------------------------------------------------------------
+ * WARUM PASSWORT STATT ZAUBER-LINK
+ * ----------------------------------------------------------------------
+ * Der Zauber-Link ist die angenehmere Anmeldung, aber er haengt am
+ * Mailversand — und der ist im Gratis-Tarif von Supabase auf wenige Mails
+ * pro Stunde und auf Adressen von Projektmitgliedern begrenzt. Beim
+ * Entwickeln blockiert das staendig.
+ *
+ * Mit Passwort wird KEINE EINZIGE MAIL verschickt, sofern im Dashboard
+ * unter Authentication > Sign In / Providers die Bestaetigungspflicht
+ * ("Confirm email") abgeschaltet ist. Ist sie an, kommt beim Registrieren
+ * `email_not_confirmed` zurueck.
+ *
+ * Der Zauber-Link bleibt im Code (sendMagicLink, /auth/callback,
+ * /auth/confirm) und laesst sich zurueckholen, sobald ein eigener
+ * Mailversand eingerichtet ist — den braucht Stufe 2 fuer die
+ * Ablauf-Mails ohnehin.
+ */
+export async function signInWithPassword(
+  email: string,
+  password: string,
+): Promise<AuthResult> {
+  const supabase = await createSupabaseServerClient();
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  return error ? failure(error) : { ok: true };
+}
+
+/**
+ * Legt ein Konto an und meldet gleich an.
+ *
+ * Ohne Bestaetigungspflicht liefert `signUp` sofort eine Sitzung — die
+ * Cookies sind danach gesetzt, ein zweiter Anmeldeschritt entfaellt.
+ *
+ * `emailRedirectTo` fehlt bewusst: Es waere nur fuer die Bestaetigungsmail
+ * noetig, und genau die soll nicht verschickt werden.
+ */
+export async function signUpWithPassword(
+  email: string,
+  password: string,
+): Promise<AuthResult> {
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase.auth.signUp({ email, password });
+
+  if (error) return failure(error);
+
+  // Kommt keine Sitzung zurueck, ist im Dashboard die Bestaetigungspflicht
+  // noch aktiv. Ohne diesen Hinweis wuerde die Oberflaeche "angemeldet"
+  // melden und die naechste Seite den Nutzer wieder wegschicken — ein
+  // Verhalten, das man lange fuer einen Fehler im Code haelt.
+  if (!data.session) {
+    return {
+      ok: false,
+      code: "email_not_confirmed",
+      message: authErrorMessage("email_not_confirmed"),
+    };
+  }
+
+  return { ok: true };
+}
+
+/**
  * Tauscht den Code aus `/auth/callback?code=...` gegen eine Sitzung ein und
  * schreibt die Sitzungs-Cookies.
  *
