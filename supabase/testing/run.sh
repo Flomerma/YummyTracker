@@ -32,4 +32,7 @@ for f in "$ROOT"/supabase/migrations/*.sql; do
 done
 
 echo "Nachweis ausfuehren ..."
+# Reihenfolge zaehlt: 10_ legt die Helfer test.ok/test.denied und die
+# Testpersonen an, auf denen die spaeteren Dateien aufbauen.
 "${PSQL[@]}" -d "$DB" -f "$ROOT/supabase/testing/10_rls_stufe0.sql"
+"${PSQL[@]}" -d "$DB" -f "$ROOT/supabase/testing/20_rls_stufe1.sql"

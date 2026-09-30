@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo \"=== git status ===\")",
+      "Bash(git status *)",
+      "Bash(echo)",
+      "Bash(echo \"=== Journal des Workflows ===\")",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
