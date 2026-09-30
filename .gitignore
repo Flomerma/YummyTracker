@@ -45,3 +45,11 @@ next-env.d.ts
 supabase/.branches
 supabase/.temp
 supabase/.env
+
+# Echte Kassenbons zum Messen der Erkennungsqualitaet.
+# NICHT einchecken: Ein Bon verraet den vollstaendigen Einkauf, und dieses
+# Repository ist oeffentlich. Die abgeleiteten Messwerte gehoeren in die
+# Dokumentation, die Bilder nicht.
+docs/messung/bons/
+*kassenzettel*
+*kassenbon*
