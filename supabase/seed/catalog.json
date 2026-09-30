@@ -576,7 +576,7 @@
       "defaultStorage": "pantry",
       "defaultUnit": "piece",
       "name": "Zopf",
-      "normalizedName": "zopf"
+      "normalizedName": "zopf zoepfe"
     },
     {
       "categorySlug": "bread-bakery",
@@ -631,6 +631,15 @@
       "defaultUnit": "g",
       "name": "Essiggurken",
       "normalizedName": "essiggurken"
+    },
+    {
+      "categorySlug": "canned-jarred",
+      "daysDefaultStorage": 730,
+      "daysOpened": 3,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Kichererbsen",
+      "normalizedName": "kichererbsen"
     },
     {
       "categorySlug": "canned-jarred",
@@ -1071,7 +1080,7 @@
       "defaultStorage": "pantry",
       "defaultUnit": "piece",
       "name": "Apfel",
-      "normalizedName": "apfel"
+      "normalizedName": "apfel aepfel"
     },
     {
       "categorySlug": "fresh-fruit",
@@ -2010,6 +2019,123 @@
       "normalizedName": "spaghetti"
     },
     {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 21,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Ingwer",
+      "normalizedName": "ingwer"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 21,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Kartoffeln festkochend",
+      "normalizedName": "kartoffeln festkochend"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 21,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Kartoffeln mehligkochend",
+      "normalizedName": "kartoffeln mehligkochend"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 45,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Knoblauch",
+      "normalizedName": "knoblauch"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 30,
+      "daysOpened": 7,
+      "defaultStorage": "pantry",
+      "defaultUnit": "piece",
+      "name": "Kürbis",
+      "normalizedName": "kuerbis"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 21,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Randen / Rote Bete",
+      "normalizedName": "randen rote bete"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 30,
+      "daysOpened": 7,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Rotkabis",
+      "normalizedName": "rotkabis"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 21,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "g",
+      "name": "Rüebli / Karotten",
+      "normalizedName": "ruebli karotten"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 30,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Schalotten",
+      "normalizedName": "schalotten"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 21,
+      "daysOpened": 0,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Sellerieknolle",
+      "normalizedName": "sellerieknolle"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 21,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Süsskartoffeln",
+      "normalizedName": "suesskartoffeln"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 30,
+      "daysOpened": 7,
+      "defaultStorage": "fridge",
+      "defaultUnit": "piece",
+      "name": "Weisskabis",
+      "normalizedName": "weisskabis"
+    },
+    {
+      "categorySlug": "potatoes-root-vegetables",
+      "daysDefaultStorage": 30,
+      "daysOpened": 0,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Zwiebeln",
+      "normalizedName": "zwiebeln"
+    },
+    {
       "categorySlug": "salad-herbs",
       "daysDefaultStorage": 10,
       "daysOpened": 0,
@@ -2377,6 +2503,51 @@
       "defaultUnit": "g",
       "name": "Zimt",
       "normalizedName": "zimt"
+    },
+    {
+      "categorySlug": "sweet-spreads",
+      "daysDefaultStorage": 730,
+      "daysOpened": 180,
+      "defaultStorage": "pantry",
+      "defaultUnit": "ml",
+      "name": "Ahornsirup",
+      "normalizedName": "ahornsirup"
+    },
+    {
+      "categorySlug": "sweet-spreads",
+      "daysDefaultStorage": 365,
+      "daysOpened": 90,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Erdnussbutter",
+      "normalizedName": "erdnussbutter"
+    },
+    {
+      "categorySlug": "sweet-spreads",
+      "daysDefaultStorage": 1095,
+      "daysOpened": 730,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Honig",
+      "normalizedName": "honig"
+    },
+    {
+      "categorySlug": "sweet-spreads",
+      "daysDefaultStorage": 540,
+      "daysOpened": 30,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Konfitüre",
+      "normalizedName": "konfituere"
+    },
+    {
+      "categorySlug": "sweet-spreads",
+      "daysDefaultStorage": 365,
+      "daysOpened": 90,
+      "defaultStorage": "pantry",
+      "defaultUnit": "g",
+      "name": "Schokoladenaufstrich",
+      "normalizedName": "schokoladenaufstrich"
     },
     {
       "categorySlug": "sweets-snacks",

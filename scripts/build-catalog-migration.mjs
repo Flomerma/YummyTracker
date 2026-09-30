@@ -19,9 +19,22 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+/**
+ * Zieldatei. Standard ist die ERSTE Katalog-Migration; sobald sie einmal
+ * eingespielt wurde, darf sie nicht mehr veraendert werden — die
+ * Migrationshistorie fuehrt sie als angewendet, und `db push` wuerde eine
+ * Aenderung nie ausfuehren. Fuer Ergaenzungen gibt man deshalb einen neuen
+ * Dateinamen mit:
+ *
+ *   node scripts/build-catalog-migration.mjs 20260930120000_stage1_seed_catalog_v2.sql
+ *
+ * Das erzeugte SQL ist wiederholt ausfuehrbar, ein erneuter Lauf gegen eine
+ * bereits gefuellte Datenbank aktualisiert also nur.
+ */
 const OUT = join(
   root,
-  "supabase/migrations/20260924090400_stage1_seed_catalog.sql",
+  "supabase/migrations",
+  process.argv[2] ?? "20260924090400_stage1_seed_catalog.sql",
 );
 
 const catalog = JSON.parse(

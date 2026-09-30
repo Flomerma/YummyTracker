@@ -57,12 +57,12 @@ select test.ok(
   'Der Startkatalog bringt 27 Kategorien mit');
 
 select test.ok(
-  (select count(*) from public.products where household_id is null) = 254,
-  'Der Startkatalog bringt 254 globale Produkte mit');
+  (select count(*) from public.products where household_id is null) = 273,
+  'Der Startkatalog bringt 273 globale Produkte mit');
 
 select test.ok(
-  (select count(*) from public.shelf_life_rules) = 300,
-  'Der Startkatalog bringt 300 Haltbarkeitsregeln mit');
+  (select count(*) from public.shelf_life_rules) = 319,
+  'Der Startkatalog bringt 319 Haltbarkeitsregeln mit');
 
 select test.ok(
   (select days_unopened from public.shelf_life_rules r

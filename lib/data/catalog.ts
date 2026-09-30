@@ -9,6 +9,7 @@ import type {
   StorageLocation,
   Unit,
 } from "@/lib/domain/types";
+import { escapeLikeTerm, searchTerms } from "@/lib/domain/search-terms";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -149,29 +150,47 @@ const PRODUCT_COLUMNS =
  * Sucht Produkte fuer die Schnelleingabe.
  *
  * Gesucht wird auf `normalized_name`, nicht auf `name`: Wer "Vollmilch"
- * tippt, soll auch "Vollmilch" finden, wenn im Katalog "Vollmilch" mit
- * anderer Schreibweise steht. Die Normalisierung der Eingabe erledigt der
- * Aufrufer mit `normalizeName` aus lib/domain — dieselbe Funktion, die den
- * Katalog gefuellt hat.
+ * tippt, soll auch "Vollmilch" finden, wenn im Katalog eine andere
+ * Schreibweise steht. Die Normalisierung der Eingabe erledigt der Aufrufer
+ * mit `normalizeName` — dieselbe Funktion, die den Katalog gefuellt hat.
+ *
+ * ----------------------------------------------------------------------
+ * TOKENWEISE, NICHT ALS GANZE ANFRAGE
+ * ----------------------------------------------------------------------
+ * Die erste Fassung suchte `%ganze anfrage%`. Nachgemessen an 18
+ * realistischen Bonzeilen fanden 10 davon KEINEN Kandidaten — "hackfleisch
+ * rind" trifft "rindshackfleisch" nicht, weil die Woerter anders herum
+ * stehen. Mit den Einzelbegriffen aus `searchTerms` blieben 2 uebrig, und
+ * die scheiterten am fehlenden Katalogeintrag, nicht an der Abfrage.
+ *
+ * Das Netz ist damit bewusst weit; die Rangfolge macht anschliessend
+ * `matchProduct` in lib/domain. Eine Suche, die zu wenig liefert, kann der
+ * beste Abgleich nicht mehr retten — umgekehrt schon.
  *
  * Die Zeilen-Sicherheitsregeln sorgen dafuer, dass hier globale Eintraege
  * und die des eigenen Haushalts erscheinen, aber keine fremden.
  */
 export async function searchProducts(
   normalizedQuery: string,
-  limit = 12,
+  limit = 40,
 ): Promise<CatalogResult<readonly CatalogProduct[]>> {
-  const query = normalizedQuery.trim();
-  if (query.length === 0) return { ok: true, data: [] };
+  const terms = searchTerms(normalizedQuery);
+  if (terms.length === 0) return { ok: true, data: [] };
 
   const supabase = await createSupabaseServerClient();
 
-  // Praefix zuerst, damit "voll" nicht von "Sojavollmilch" verdraengt wird;
-  // die genauere Rangfolge macht anschliessend matchProduct in lib/domain.
+  // PostgREST erwartet im or()-Ausdruck `*` als Platzhalter, nicht `%`.
+  // Die LIKE-Sonderzeichen im Begriff selbst werden vorher maskiert, sonst
+  // wird aus einer Eingabe mit Prozentzeichen ein Muster, das auf alles
+  // passt.
+  const filter = terms
+    .map((term) => `normalized_name.ilike.*${escapeLikeTerm(term)}*`)
+    .join(",");
+
   const { data, error } = await supabase
     .from("products")
     .select(PRODUCT_COLUMNS)
-    .ilike("normalized_name", `%${query}%`)
+    .or(filter)
     .order("normalized_name")
     .limit(limit);
 
