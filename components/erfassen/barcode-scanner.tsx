@@ -7,6 +7,7 @@ import { Button, Notice } from "@/components/ui";
 import {
   cameraProblem,
   createStableReader,
+  DETECTOR_UNAVAILABLE,
   FOOD_BARCODE_FORMATS,
   liveCameraAvailable,
   PHOTO_HINT_AFTER_MS,
@@ -137,11 +138,18 @@ export function BarcodeScanner({
     setPhotoHint(false);
     setMode("starting");
 
+    // Erkennung und Kamera gleichzeitig vorbereiten: Beides dauert, und
+    // hintereinander waeren es beim ersten Scan einige Sekunden mehr. Die
+    // Erkennung bekommt aber einen eigenen Fehlerfall — schlaegt sie fehl,
+    // ist die Kamera unschuldig, und die Meldung muss das sagen.
+    const detectorReady = loadDetector().then(
+      (d) => ({ ok: true as const, detector: d }),
+      () => ({ ok: false as const }),
+    );
+
     try {
-      // Erkennung und Kamera gleichzeitig vorbereiten: Beides dauert, und
-      // hintereinander waeren es beim ersten Scan einige Sekunden mehr.
-      const [detector, stream] = await Promise.all([
-        loadDetector(),
+      const [loaded, stream] = await Promise.all([
+        detectorReady,
         navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
@@ -156,6 +164,14 @@ export function BarcodeScanner({
           },
         }),
       ]);
+
+      if (!loaded.ok) {
+        stream.getTracks().forEach((t) => t.stop());
+        setMode("idle");
+        setProblem(DETECTOR_UNAVAILABLE);
+        return;
+      }
+      const detector = loaded.detector;
 
       streamRef.current = stream;
       const video = videoRef.current;
@@ -233,8 +249,18 @@ export function BarcodeScanner({
     setPhotoFailed(false);
     setMode("reading-photo");
 
+    let detector: Detector;
     try {
-      const detector = await loadDetector();
+      detector = await loadDetector();
+    } catch {
+      // Nicht "kein Barcode erkannt" melden — es wurde gar nicht gesucht.
+      setMode("idle");
+      setProblem(DETECTOR_UNAVAILABLE);
+      if (photoRef.current) photoRef.current.value = "";
+      return;
+    }
+
+    try {
       const codes = await detector.detect(file);
       const code = codes[0]?.rawValue;
       if (code) {

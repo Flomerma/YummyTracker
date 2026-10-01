@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   cameraProblem,
+  DETECTOR_UNAVAILABLE,
   createStableReader,
   STABLE_READS_REQUIRED,
 } from "./scanner-logic";
@@ -101,5 +102,18 @@ describe("cameraProblem", () => {
     ]) {
       expect(cameraProblem({ name }).hint).toMatch(/Foto|tippe|nochmal/);
     }
+  });
+});
+
+describe("DETECTOR_UNAVAILABLE", () => {
+  it("schiebt die Schuld nicht auf die Kamera", () => {
+    // Laedt die Erkennung nicht, ist die Kamera unschuldig. Wer "Kamera"
+    // liest, sucht an der falschen Stelle.
+    expect(DETECTOR_UNAVAILABLE.title).not.toMatch(/Kamera/);
+  });
+
+  it("bietet einen zweiten Versuch und das Eintippen an", () => {
+    expect(DETECTOR_UNAVAILABLE.retryLive).toBe(true);
+    expect(DETECTOR_UNAVAILABLE.hint).toMatch(/tippe/);
   });
 });

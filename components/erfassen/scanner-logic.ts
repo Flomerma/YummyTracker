@@ -143,6 +143,24 @@ export function cameraProblem(error: unknown): CameraProblem {
 }
 
 /**
+ * Die Meldung, wenn die Erkennung selbst nicht laedt.
+ *
+ * Eigener Fall, nicht in `cameraProblem`: Laedt die WASM-Datei nicht (Netz
+ * weg, eine strenge Content Security Policy, eine veraltete Datei nach einem
+ * Versionswechsel), ist die Kamera unschuldig. Wer dann "Die Kamera liess
+ * sich nicht starten" liest, sucht den Fehler in den Kameraeinstellungen —
+ * und beim Foto-Weg hiesse es faelschlich "kein Barcode erkannt", obwohl gar
+ * nicht gesucht wurde.
+ */
+export const DETECTOR_UNAVAILABLE: CameraProblem = {
+  title: "Die Barcode-Erkennung konnte nicht geladen werden",
+  hint:
+    "Meist ist die Verbindung kurz weg. Versuche es gleich nochmal — oder " +
+    "tippe den Namen ein, das geht auch ohne Netz.",
+  retryLive: true,
+};
+
+/**
  * Kann dieser Browser ueberhaupt eine Live-Kamera liefern?
  *
  * Ohne gesicherte Verbindung (HTTPS) gibt es `navigator.mediaDevices` gar
