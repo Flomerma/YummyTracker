@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { Schnelleingabe } from "@/components/erfassen/schnelleingabe";
+import { ErfassenEingabe } from "@/components/erfassen/erfassen-eingabe";
 import {
   Button,
   Card,
@@ -11,6 +11,7 @@ import {
   PageHeader,
 } from "@/components/ui";
 import type { StorageLocation, Unit } from "@/lib/domain/types";
+import { listCategories } from "@/lib/data/catalog";
 import { currentContext } from "@/lib/services/current";
 import { loadOpenDraft } from "@/lib/services/intake";
 
@@ -46,7 +47,16 @@ export default async function ErfassenSeite() {
   const context = await currentContext();
   if (context.state !== "ready") redirect("/");
 
-  const draft = await loadOpenDraft(context.household.id);
+  // Beides gleichzeitig: Die Kategorien braucht der Scanner, wenn er einen
+  // unbekannten Code benennen laesst. Schlaegt nur das Laden der Kategorien
+  // fehl, geht der Scan trotzdem — dann eben mit "Weiss nicht".
+  const [draft, kategorien] = await Promise.all([
+    loadOpenDraft(context.household.id),
+    listCategories(),
+  ]);
+  const categories = kategorien.ok
+    ? kategorien.data.map((c) => ({ id: c.id, name: c.name }))
+    : [];
 
   if (!draft.ok) {
     return (
@@ -63,11 +73,11 @@ export default async function ErfassenSeite() {
     <div className="flex flex-col gap-5">
       <PageHeader
         title="Erfassen"
-        subtitle="Tippen, Enter, nächstes. Lagerort und Haltbarkeit schlägt die App vor."
+        subtitle="Tippen, Enter, nächstes. Für Markenware und Waagenetiketten von der Theke gibt es den Scanner."
       />
 
       <Card>
-        <Schnelleingabe />
+        <ErfassenEingabe categories={categories} />
       </Card>
 
       {lines.length === 0 ? (
