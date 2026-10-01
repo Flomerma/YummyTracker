@@ -10,7 +10,10 @@ import type {
   Unit,
 } from "@/lib/domain/types";
 import { escapeLikeTerm, searchTerms } from "@/lib/domain/search-terms";
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import {
+  createSupabaseAdminClient,
+  hasSupabaseAdminConfig,
+} from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 /**
@@ -367,6 +370,16 @@ export async function listCategories(): Promise<
   return { ok: true, data: (data ?? []) as CatalogCategory[] };
 }
 
+function adminFehlt(): CatalogResult<never> {
+  return {
+    ok: false,
+    code: "admin_key_missing",
+    message:
+      "Dieser Schritt braucht den Geheimschluessel des Projekts, und er ist " +
+      "nicht hinterlegt. Alles Uebrige funktioniert ohne ihn weiter.",
+  };
+}
+
 /* -------------------------------------------------------------------------
  * Strichcodes
  * ---------------------------------------------------------------------- */
@@ -504,13 +517,19 @@ export interface NewHouseholdProduct {
 /**
  * Legt ein Produkt an, das nur diesem Haushalt gehoert.
  *
- * ACHTUNG — ZWEI PFLICHTEN DES AUFRUFERS:
+ * LAEUFT MIT DEM NUTZER-CLIENT, nicht mit erhoehten Rechten.
  *
- *  1. Die Zugehoerigkeit zum Haushalt muss VORHER geprueft sein. Dieser
- *     Aufruf laeuft mit erhoehten Rechten und sieht keine Richtlinien.
- *  2. `normalizedName` muss aus `normalizeName` stammen. Die Datenbank
- *     berechnet ihn nicht; ihr CHECK prueft nur die grobe Form
- *     (kleingeschrieben, getrimmt, keine Doppelleerzeichen).
+ * Das war einmal anders und war ein Fehler: Der Weg ueber den
+ * Geheimschluessel brach in Produktion, weil SUPABASE_SECRET_KEY nicht
+ * gesetzt war — und er schuetzte dabei nichts. Haushaltseigene Produkte
+ * sind durch die Zeilen-Sicherheitsregeln ohnehin fuer keinen anderen
+ * Haushalt sichtbar; der Grund fuer "Katalog nur lesbar" (ein Tippfehler
+ * verteilt sich global) trifft auf sie nicht zu. Seit Migration
+ * 20261001150000 erlaubt eine Richtlinie genau diesen einen Fall.
+ *
+ * PFLICHT DES AUFRUFERS: `normalizedName` muss aus `normalizeName`
+ * stammen. Die Datenbank berechnet ihn nicht; ihr CHECK prueft nur die
+ * grobe Form (kleingeschrieben, getrimmt, keine Doppelleerzeichen).
  *
  * `source` ist zwingend 'user', sobald `household_id` gesetzt ist — der
  * CHECK products_scope_matches_source erzwingt diesen Zusammenhang und
@@ -520,7 +539,7 @@ export interface NewHouseholdProduct {
 export async function createHouseholdProduct(
   input: NewHouseholdProduct,
 ): Promise<CatalogResult<CatalogProduct>> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("products")
@@ -558,6 +577,8 @@ export async function saveEstimatedShelfLife(input: {
   readonly daysUnopened: number;
   readonly daysOpened: number | null;
 }): Promise<CatalogResult<null>> {
+  if (!hasSupabaseAdminConfig()) return adminFehlt();
+
   const supabase = createSupabaseAdminClient();
 
   const { error } = await supabase.from("shelf_life_rules").insert({
@@ -590,6 +611,8 @@ export async function upsertLearnedShelfLife(input: {
   readonly daysUnopened: number;
   readonly sampleCount: number;
 }): Promise<CatalogResult<null>> {
+  if (!hasSupabaseAdminConfig()) return adminFehlt();
+
   const supabase = createSupabaseAdminClient();
 
   const { error } = await supabase.from("shelf_life_rules").upsert(

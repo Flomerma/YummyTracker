@@ -172,6 +172,64 @@ select test.ok(
 commit;
 
 -- ---------------------------------------------------------------------
+-- 8b  Eigene Produkte anlegen — ohne Geheimschluessel
+-- ---------------------------------------------------------------------
+--
+-- Seit Migration 20261001150000 darf ein Mitglied haushaltseigene
+-- Produkte selbst anlegen. Der Weg ueber den Geheimschluessel war hier
+-- kein Schutz, sondern nur eine Ausfallquelle: Solche Zeilen sind durch
+-- die Richtlinien ohnehin fuer keinen anderen Haushalt sichtbar.
+-- Entscheidend ist, dass der Weg ins GLOBALE versperrt bleibt.
+
+begin;
+set local role authenticated;
+set local request.jwt.claim.sub = '22222222-2222-2222-2222-222222222222';
+
+insert into public.products
+  (name, normalized_name, category_id, default_unit, default_storage,
+   source, household_id)
+values ('Beats Spezialmischung', 'beats spezialmischung', null, 'g', 'pantry',
+        'user', (select v::uuid from test.state where k = 'hb'));
+
+select test.ok(
+  (select count(*) from public.products
+    where normalized_name = 'beats spezialmischung') = 1,
+  'B kann ein eigenes Produkt anlegen, ohne Geheimschluessel auf dem Server');
+
+select test.ok(
+  (select verified from public.products
+    where normalized_name = 'beats spezialmischung') = false,
+  'Die Pruefmarkierung bleibt aus — eine Selbstbescheinigung waere wertlos');
+
+select test.denied(
+  'insert into public.products
+     (name, normalized_name, default_unit, source, household_id)
+   values (''Weltweiter Unfug'', ''weltweiter unfug'', ''piece'', ''seed'', null)',
+  'B kann weiterhin KEIN globales Produkt anlegen');
+
+select test.denied(
+  format('insert into public.products
+            (name, normalized_name, default_unit, source, household_id)
+          values (''Untergeschoben'', ''untergeschoben'', ''piece'', ''user'', %L::uuid)',
+         (select v from test.state where k = 'ha')),
+  'B kann kein Produkt in den Haushalt von A legen');
+
+select test.denied(
+  'update public.products set name = ''Umbenannt''
+    where normalized_name = ''vollmilch''',
+  'Der globale Katalog bleibt unveraenderlich');
+commit;
+
+begin;
+set local role authenticated;
+set local request.jwt.claim.sub = '11111111-1111-1111-1111-111111111111';
+select test.ok(
+  (select count(*) from public.products
+    where normalized_name = 'beats spezialmischung') = 0,
+  'A sieht das eigene Produkt von B nicht');
+commit;
+
+-- ---------------------------------------------------------------------
 -- 9  Mit dem Haushalt verschwinden auch seine Zuordnungen
 -- ---------------------------------------------------------------------
 

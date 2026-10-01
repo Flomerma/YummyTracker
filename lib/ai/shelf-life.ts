@@ -4,7 +4,10 @@ import Anthropic from "@anthropic-ai/sdk";
 
 import type { StorageLocation } from "@/lib/domain/types";
 import { isPlausibleEstimate } from "@/lib/domain/shelf-life-estimate";
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import {
+  createSupabaseAdminClient,
+  hasSupabaseAdminConfig,
+} from "@/lib/supabase/admin";
 
 /**
  * Das letzte Glied der Haltbarkeits-Kette aus Konzept 4.3.
@@ -68,6 +71,11 @@ const STORAGE_TEXT: Record<StorageLocation, string> = {
 export async function withinDailyBudget(): Promise<boolean> {
   const since = new Date();
   since.setUTCHours(0, 0, 0, 0);
+
+  // Ohne Geheimschluessel laesst sich der Zaehler nicht lesen. Dann wird
+  // ABGELEHNT statt durchgelassen: Eine Kostenbremse, die bei fehlender
+  // Einstellung oeffnet, ist keine.
+  if (!hasSupabaseAdminConfig()) return false;
 
   const supabase = createSupabaseAdminClient();
   const { count, error } = await supabase
