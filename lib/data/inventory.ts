@@ -2,7 +2,7 @@ import "server-only";
 
 import type { PostgrestError } from "@supabase/supabase-js";
 
-import { householdErrorMessage, isErrorMarker } from "@/lib/domain/invite";
+import { databaseErrorMessage, isErrorMarker } from "@/lib/domain/invite";
 import type {
   ExpirySource,
   InventoryStatus,
@@ -47,7 +47,11 @@ function errorCode(error: PostgrestError): string | null {
 
 function failure(error: PostgrestError): InventoryResult<never> {
   const code = errorCode(error);
-  return { ok: false, code, message: householdErrorMessage(code) };
+  return {
+    ok: false,
+    code,
+    message: databaseErrorMessage(code, error.message),
+  };
 }
 
 /* -------------------------------------------------------------------------

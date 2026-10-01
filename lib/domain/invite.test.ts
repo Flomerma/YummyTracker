@@ -1,19 +1,20 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  buildInviteUrl,
   DEFAULT_INVITE_VALIDITY_MINUTES,
   DISPLAY_NAME_MAX_LENGTH,
-  extractInviteToken,
   HOUSEHOLD_NAME_MAX_LENGTH,
-  householdErrorMessage,
   INVITE_PATH,
   INVITE_TOKEN_LENGTH,
   INVITE_TOKEN_PARAM,
-  inviteValidityInterval,
-  isErrorMarker,
   MAX_INVITE_VALIDITY_MINUTES,
   MIN_INVITE_VALIDITY_MINUTES,
+  buildInviteUrl,
+  databaseErrorMessage,
+  extractInviteToken,
+  householdErrorMessage,
+  inviteValidityInterval,
+  isErrorMarker,
   normalizeName,
   validateDisplayName,
   validateHouseholdName,
@@ -324,5 +325,55 @@ describe("householdErrorMessage", () => {
   it("faengt auch SQLSTATE und PostgREST-Codes ab", () => {
     expect(householdErrorMessage("42501")).toContain("Kein Zugriff");
     expect(householdErrorMessage("PGRST301")).toContain("Anmeldung");
+  });
+});
+
+describe("databaseErrorMessage — zwei Faelle unter derselben Kennung", () => {
+  it("nennt die fehlende Migration beim fehlenden Recht", () => {
+    // Genau der Fall, der in Produktion in die Irre fuehrte: Der Code lag
+    // auf dem Server, die Migration noch nicht in der Datenbank.
+    const m = databaseErrorMessage(
+      "42501",
+      "permission denied for table products",
+    );
+    expect(m).toContain("Migration");
+    expect(m).not.toContain("anderen Haushalt");
+  });
+
+  it("nennt den fremden Haushalt, wenn die Richtlinie greift", () => {
+    const m = databaseErrorMessage(
+      "42501",
+      'new row violates row-level security policy for table "inventory_items"',
+    );
+    expect(m).toContain("anderen Haushalt");
+    expect(m).not.toContain("Migration");
+  });
+
+  it("unterscheidet unabhaengig von der Schreibweise", () => {
+    expect(
+      databaseErrorMessage("42501", "PERMISSION DENIED FOR TABLE products"),
+    ).toContain("Migration");
+  });
+
+  it("faellt ohne Meldungstext auf die alte Uebersetzung zurueck", () => {
+    // Besser eine unspezifische Aussage als eine erfundene.
+    expect(databaseErrorMessage("42501", null)).toBe(
+      householdErrorMessage("42501"),
+    );
+    expect(databaseErrorMessage("42501")).toBe(householdErrorMessage("42501"));
+  });
+
+  it("laesst jeden anderen Code unveraendert", () => {
+    for (const code of [
+      "invite_expired",
+      "not_a_member",
+      "PGRST301",
+      "23505",
+      null,
+    ]) {
+      expect(databaseErrorMessage(code, "irgendein Text")).toBe(
+        householdErrorMessage(code),
+      );
+    }
   });
 });

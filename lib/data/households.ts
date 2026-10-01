@@ -2,7 +2,11 @@ import "server-only";
 
 import type { PostgrestError } from "@supabase/supabase-js";
 
-import { householdErrorMessage, isErrorMarker } from "@/lib/domain/invite";
+import {
+  databaseErrorMessage,
+  householdErrorMessage,
+  isErrorMarker,
+} from "@/lib/domain/invite";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 /**
@@ -69,6 +73,9 @@ export type HouseholdResult<T> =
     };
 
 export function householdFailure(code: string | null): HouseholdResult<never> {
+  // Ohne Datenbankfehler zur Hand — die Aufrufer melden hier eigene Marker
+  // wie "not_a_member". databaseErrorMessage faellt ohne Meldungstext
+  // ohnehin hierauf zurueck.
   return { ok: false, code, message: householdErrorMessage(code) };
 }
 
@@ -92,7 +99,15 @@ function errorCode(error: PostgrestError): string | null {
 }
 
 function failure(error: PostgrestError): HouseholdResult<never> {
-  return householdFailure(errorCode(error));
+  const code = errorCode(error);
+  // Mit dem Meldungstext, weil SQLSTATE 42501 zwei grundverschiedene Dinge
+  // bedeuten kann: fehlendes Recht (meist eine nicht eingespielte
+  // Migration) oder tatsaechlich ein fremder Haushalt.
+  return {
+    ok: false,
+    code,
+    message: databaseErrorMessage(code, error.message),
+  };
 }
 
 /* -------------------------------------------------------------------------

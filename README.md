@@ -75,6 +75,31 @@ npm run dev     # http://localhost:3000
 
 ---
 
+## Reihenfolge beim Veröffentlichen
+
+**Zuerst die Datenbank, dann der Code.** Immer in dieser Richtung.
+
+```bash
+npx supabase migration list          # was fehlt in der Cloud?
+npm run db:push                      # erst die Datenbank
+git push                             # dann der Code
+```
+
+Der Grund steht in `docs/journal/`: Zweimal ist Code live gegangen, der eine
+noch nicht eingespielte Migration voraussetzte. Beide Male sah es nach einem
+Programmfehler aus, und beide Male war es keiner.
+
+Warum diese Richtung und nicht die andere: Eine Migration ohne den
+zugehörigen Code ist harmlos — eine Tabelle, die niemand abfragt, ein Recht,
+das niemand nutzt. Code ohne seine Migration bricht dagegen sofort, und zwar
+mit einer Meldung, die in die Irre führt.
+
+Falls es doch passiert: `permission denied for table …` bedeutet so gut wie
+immer eine fehlende Migration, nicht ein Rechteproblem des Kontos. Die App
+sagt das inzwischen auch so.
+
+---
+
 ## Befehle
 
 | Befehl                | Zweck                                                         |

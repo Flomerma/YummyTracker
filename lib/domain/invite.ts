@@ -304,3 +304,53 @@ export function householdErrorMessage(code: string | null | undefined): string {
 export function isErrorMarker(value: string | null | undefined): boolean {
   return value != null && /^[a-z][a-z0-9_]{2,48}$/.test(value);
 }
+
+/* -------------------------------------------------------------------------
+ * Fehler, die nach demselben Code aussehen und es nicht sind
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Uebersetzt einen Datenbankfehler und unterscheidet dabei zwei Faelle,
+ * die PostgreSQL unter DERSELBEN Kennung meldet.
+ *
+ * ANLASS: Ein Nutzer bekam "Kein Zugriff auf diesen Haushalt." zu sehen,
+ * obwohl es sein eigener war. Die Wahrheit war eine andere: Der Code lag
+ * auf dem Server, die zugehoerige Migration aber noch nicht in der
+ * Datenbank — es fehlte ein RECHT, kein Zugang. Die Meldung schickte damit
+ * auf die falsche Faehrte, und zwar auf eine, auf der man lange suchen
+ * kann.
+ *
+ * SQLSTATE 42501 heisst "insufficient_privilege" und deckt beides ab:
+ *
+ *   "permission denied for table X"
+ *       -> Der Rolle fehlt ein GRANT. In diesem Projekt praktisch immer
+ *          eine nicht eingespielte Migration.
+ *
+ *   "new row violates row-level security policy for table X"
+ *       -> Das Recht ist da, die Richtlinie greift. Hier ist es wirklich
+ *          ein fremder Haushalt.
+ *
+ * Unterscheidbar sind sie nur am Meldungstext, nicht am Code. Deshalb
+ * nimmt diese Funktion beides entgegen.
+ */
+export function databaseErrorMessage(
+  code: string | null | undefined,
+  rawMessage?: string | null,
+): string {
+  if (code === "42501") {
+    const text = (rawMessage ?? "").toLowerCase();
+
+    if (text.includes("permission denied")) {
+      return (
+        "Diesem Konto fehlt ein Recht in der Datenbank. Das passiert fast " +
+        "immer, wenn eine Migration noch nicht eingespielt ist — in der " +
+        "Entwicklung hilft npm run db:push."
+      );
+    }
+    if (text.includes("row-level security")) {
+      return "Dieser Eintrag gehoert zu einem anderen Haushalt.";
+    }
+  }
+
+  return householdErrorMessage(code);
+}
