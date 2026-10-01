@@ -116,6 +116,10 @@ for (const c of catalog.categories) {
   }
 }
 
+const cleanupRows = catalog.products
+  .map((p) => `       (${q(p.normalizedName)})`)
+  .join(",\n");
+
 const prodRuleRows = catalog.products.map(
   (p) =>
     `  (${q(p.normalizedName)}, ${q(p.defaultStorage)}, ` +
@@ -176,6 +180,34 @@ on conflict (normalized_name) where household_id is null do update
       source          = 'seed',
       verified        = true,
       updated_at      = now();
+
+-- 2b. Verwaiste Startkatalog-Eintraege entfernen -----------------------
+--
+-- NOETIG, weil der Abgleich oben ueber normalized_name laeuft: Wird genau
+-- dieses Feld geaendert (etwa "apfel" zu "apfel aepfel", damit die
+-- Mehrzahlform auch trifft), kollidiert nichts — es entsteht eine ZWEITE
+-- Zeile, und die alte bleibt stehen. Genau das ist beim ersten Lauf
+-- passiert und hat "Apfel" und "Zopf" verdoppelt.
+--
+-- Entfernt wird ausschliesslich, was aus dem Startkatalog stammt und dort
+-- nicht mehr vorkommt. Haushaltseigene Produkte (source='user'),
+-- KI-Ergaenzungen ('ai') und uebernommene Fremddaten ('off') bleiben
+-- unberuehrt.
+--
+-- Gefahrlos, weil inventory_items.product_id und intake_lines.product_id
+-- auf ON DELETE SET NULL stehen: Ein entfernter Katalogeintrag loescht
+-- niemandem den Vorrat, er loest nur die Verknuepfung. Der Artikel behaelt
+-- seinen Namen, weil display_name ein Schnappschuss ist (Konzept 5.3).
+
+delete from public.products p
+ where p.household_id is null
+   and p.source = 'seed'
+   and not exists (
+     select 1 from (values
+${cleanupRows}
+     ) as gewollt(normalized_name)
+      where gewollt.normalized_name = p.normalized_name
+   );
 
 -- 3. Haltbarkeitsregeln ------------------------------------------------
 

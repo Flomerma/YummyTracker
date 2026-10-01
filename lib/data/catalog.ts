@@ -368,6 +368,126 @@ export async function listCategories(): Promise<
 }
 
 /* -------------------------------------------------------------------------
+ * Strichcodes
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Sucht das Produkt zu einem Strichcode.
+ *
+ * ZWEI QUELLEN, IN DIESER REIHENFOLGE:
+ *
+ *  1. Die gelernte Zuordnung dieses Haushalts
+ *     (household_product_eans). Sie sticht, weil sie die gezieltere und
+ *     juengere Aussage ist: Jemand hat diesen Code hier von Hand einem
+ *     Produkt zugewiesen.
+ *  2. Der globale Katalog (products.ean).
+ *
+ * Der Aufrufer muss vorher `classifyEan` aus lib/domain befragen: Bei einem
+ * Waagenetikett (Praefix 20-29) ist diese Suche sinnlos, weil solche Codes
+ * nur im Laden gelten, der sie gedruckt hat. Zwei verschenkte Rundgaenge
+ * sind nicht schlimm — aber dem Nutzer zwei Sekunden Warten zuzumuten fuer
+ * eine Antwort, die nicht kommen kann, ist es.
+ */
+export async function findProductByEan(
+  ean: string,
+  householdId: string,
+): Promise<CatalogResult<CatalogProduct | null>> {
+  const supabase = await createSupabaseServerClient();
+
+  // 1. Gelernte Zuordnung. Die Zeilen-Sicherheitsregeln begrenzen das
+  //    ohnehin auf eigene Haushalte; household_id steht trotzdem in der
+  //    Bedingung, weil jemand zu mehreren gehoeren kann.
+  const gelernt = await supabase
+    .from("household_product_eans")
+    .select(`product_id, products(${PRODUCT_COLUMNS})`)
+    .eq("ean", ean)
+    .eq("household_id", householdId)
+    .maybeSingle();
+
+  if (gelernt.error) return failure(gelernt.error);
+
+  const verknuepft = (
+    gelernt.data as unknown as { products: ProductRow | null } | null
+  )?.products;
+  if (verknuepft) return { ok: true, data: toProduct(verknuepft) };
+
+  // 2. Globaler Katalog.
+  const { data, error } = await supabase
+    .from("products")
+    .select(PRODUCT_COLUMNS)
+    .eq("ean", ean)
+    .limit(1)
+    .maybeSingle();
+
+  if (error) return failure(error);
+  return {
+    ok: true,
+    data: data ? toProduct(data as unknown as ProductRow) : null,
+  };
+}
+
+/**
+ * Merkt sich, was ein Code in diesem Haushalt bedeutet.
+ *
+ * Das ist der eigentliche Gewinn des Scanners: Einmal von Hand zugeordnet,
+ * trifft derselbe Code beim naechsten Einkauf sofort — ohne Netzzugriff und
+ * ohne Fremdanbieter. Gerade bei Schweizer Eigenmarken, die in keiner
+ * globalen Datenbank stehen, ist das der einzige Weg, der ueberhaupt
+ * funktioniert.
+ *
+ * Laeuft bewusst mit dem NUTZER-Client, nicht mit erhoehten Rechten: Die
+ * Richtlinie prueft dabei beides — Zugehoerigkeit zum Haushalt UND dass
+ * das Produkt fuer ihn verwendbar ist. Mit erhoehten Rechten faellt diese
+ * Pruefung weg, und es gibt hier keinen Grund, sie zu umgehen.
+ *
+ * Bei Konflikt wird ueberschrieben: Wer denselben Code erneut zuordnet,
+ * korrigiert eine frueher e Zuordnung.
+ */
+export async function rememberEan(input: {
+  readonly householdId: string;
+  readonly ean: string;
+  readonly productId: string;
+}): Promise<CatalogResult<null>> {
+  const supabase = await createSupabaseServerClient();
+
+  // Kein UPSERT: Die Tabelle hat absichtlich kein UPDATE-Recht (eine
+  // Richtlinie kann den alten Wert nicht sehen). Loeschen und neu anlegen
+  // ist derselbe Aufwand und braucht keine zusaetzliche Richtlinie.
+  const weg = await supabase
+    .from("household_product_eans")
+    .delete()
+    .eq("household_id", input.householdId)
+    .eq("ean", input.ean);
+  if (weg.error) return failure(weg.error);
+
+  const { error } = await supabase.from("household_product_eans").insert({
+    household_id: input.householdId,
+    ean: input.ean,
+    product_id: input.productId,
+  });
+
+  if (error) return failure(error);
+  return { ok: true, data: null };
+}
+
+/** Nimmt eine gelernte Zuordnung zurueck. */
+export async function forgetEan(
+  householdId: string,
+  ean: string,
+): Promise<CatalogResult<null>> {
+  const supabase = await createSupabaseServerClient();
+
+  const { error } = await supabase
+    .from("household_product_eans")
+    .delete()
+    .eq("household_id", householdId)
+    .eq("ean", ean);
+
+  if (error) return failure(error);
+  return { ok: true, data: null };
+}
+
+/* -------------------------------------------------------------------------
  * Schreiben — nur ueber den Client mit erhoehten Rechten
  * ---------------------------------------------------------------------- */
 

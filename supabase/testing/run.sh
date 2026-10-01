@@ -36,3 +36,4 @@ echo "Nachweis ausfuehren ..."
 # Testpersonen an, auf denen die spaeteren Dateien aufbauen.
 "${PSQL[@]}" -d "$DB" -f "$ROOT/supabase/testing/10_rls_stufe0.sql"
 "${PSQL[@]}" -d "$DB" -f "$ROOT/supabase/testing/20_rls_stufe1.sql"
+"${PSQL[@]}" -d "$DB" -f "$ROOT/supabase/testing/30_rls_stufe5.sql"
