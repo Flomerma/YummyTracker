@@ -138,6 +138,18 @@ function toRule(row: RuleRow): ShelfLifeRule {
   };
 }
 
+/**
+ * Obergrenze fuer Suchbegriffe in EINER Abfrage. PostgREST baut den
+ * ODER-Ausdruck in die Adresse ein; ein Bon mit 34 Zeilen ergibt rund
+ * hundert Begriffe. Achtzig deckten in der Messung jede Zeile ab — die
+ * laengsten zuerst, damit die Grenze das Unwichtigste abschneidet.
+ */
+const MAX_SEARCH_TERMS_PER_QUERY = 80;
+
+const RULE_COLUMNS =
+  "id, scope, product_id, category_id, storage, days_unopened, " +
+  "days_opened, household_id, source, sample_count, updated_at";
+
 const PRODUCT_COLUMNS =
   "id, name, normalized_name, category_id, default_unit, default_storage, " +
   "household_id, categories(name)";
@@ -198,6 +210,96 @@ export async function searchProducts(
   return { ok: true, data: (data as unknown as ProductRow[]).map(toProduct) };
 }
 
+/**
+ * Kandidaten fuer VIELE Zeilen in EINER Abfrage.
+ *
+ * Ein echter Migros-Bon hat 34 Zeilen; mit `searchProducts` pro Zeile waeren
+ * das 34 Rundgaenge zur Datenbank. Hier ist es einer.
+ *
+ * Zurueck kommt die VEREINIGUNG aller Kandidaten, nicht nach Zeilen
+ * getrennt. Absicht: `assignLine` bewertet ohnehin jeden Kandidaten gegen
+ * den Rohtext, ein zusaetzlicher kostet dort nur Rechenzeit. Die Ergebnisse
+ * nach Zeilen aufzuteilen waere Mehrarbeit — und eine Fehlerquelle, wenn
+ * die Zuordnung verrutscht.
+ */
+export async function searchProductsForMany(
+  normalizedQueries: readonly string[],
+  limit = 400,
+): Promise<CatalogResult<readonly CatalogProduct[]>> {
+  const terms = Array.from(
+    new Set(normalizedQueries.flatMap((q) => searchTerms(q))),
+  )
+    .sort((a, b) => b.length - a.length)
+    .slice(0, MAX_SEARCH_TERMS_PER_QUERY);
+
+  if (terms.length === 0) return { ok: true, data: [] };
+
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(PRODUCT_COLUMNS)
+    .or(
+      terms
+        .map((term) => `normalized_name.ilike.*${escapeLikeTerm(term)}*`)
+        .join(","),
+    )
+    .order("normalized_name")
+    .limit(limit);
+
+  if (error) return failure(error);
+  return { ok: true, data: (data as unknown as ProductRow[]).map(toProduct) };
+}
+
+/**
+ * Haltbarkeitsregeln fuer viele Produkte und Kategorien in EINER Abfrage.
+ * Die Aufrufer filtern im Hauptspeicher je Zeile — `resolveShelfLife`
+ * braucht ohnehin nur die passenden Regeln.
+ */
+export async function loadShelfLifeRulesForMany(
+  productIds: readonly string[],
+  categoryIds: readonly string[],
+): Promise<CatalogResult<readonly ShelfLifeRule[]>> {
+  const produkte = Array.from(new Set(productIds.filter(Boolean)));
+  const kategorien = Array.from(new Set(categoryIds.filter(Boolean)));
+  if (produkte.length === 0 && kategorien.length === 0) {
+    return { ok: true, data: [] };
+  }
+
+  const supabase = await createSupabaseServerClient();
+
+  const bedingungen: string[] = [];
+  if (produkte.length > 0)
+    bedingungen.push(`product_id.in.(${produkte.join(",")})`);
+  if (kategorien.length > 0)
+    bedingungen.push(`category_id.in.(${kategorien.join(",")})`);
+
+  const { data, error } = await supabase
+    .from("shelf_life_rules")
+    .select(RULE_COLUMNS)
+    .or(bedingungen.join(","));
+
+  if (error) return failure(error);
+  return { ok: true, data: (data as unknown as RuleRow[]).map(toRule) };
+}
+
+/**
+ * Kategorien nach ihrem Kuerzel, fuer den Abgleich mit Hinweisen von aussen
+ * (Sprachmodell beim Bon, Open Food Facts beim Barcode). Beide liefern
+ * Kuerzel wie "fresh-vegetables", die Datenbank arbeitet mit Kennungen.
+ */
+export async function categoryIdsBySlug(): Promise<
+  CatalogResult<ReadonlyMap<string, string>>
+> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.from("categories").select("id, slug");
+  if (error) return failure(error);
+  return {
+    ok: true,
+    data: new Map((data ?? []).map((c) => [c.slug as string, c.id as string])),
+  };
+}
+
 export async function getProduct(
   productId: string,
 ): Promise<CatalogResult<CatalogProduct | null>> {
@@ -237,10 +339,7 @@ export async function loadShelfLifeRules(
 
   const { data, error } = await supabase
     .from("shelf_life_rules")
-    .select(
-      "id, scope, product_id, category_id, storage, days_unopened, " +
-        "days_opened, household_id, source, sample_count, updated_at",
-    )
+    .select(RULE_COLUMNS)
     .or(conditions.join(","));
 
   if (error) return failure(error);

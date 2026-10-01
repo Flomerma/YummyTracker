@@ -246,6 +246,12 @@ export interface NewIntakeLine {
   readonly storage: StorageLocation | null;
   readonly suggestedExpiresAt: string | null;
   readonly expirySource: ExpirySource;
+  /**
+   * Ob die Zeile im Pruef-Schritt vorangehakt ist. Fehlt der Wert, gilt
+   * true — die Schnelleingabe hat immer einen bewussten Nutzer dahinter.
+   */
+  readonly accepted?: boolean;
+  readonly priceChf?: number | null;
 }
 
 /**
@@ -280,6 +286,49 @@ export async function addLine(
 
   if (error) return failure(error);
   return { ok: true, data: toLine(data as unknown as LineRow) };
+}
+
+/**
+ * Haengt MEHRERE Zeilen in EINER Anweisung an den Entwurf.
+ *
+ * Bei einem Bon mit 34 Zeilen spart das 33 Rundgaenge zur Datenbank. Die
+ * Reihenfolge bleibt erhalten, weil PostgREST die eingefuegten Zeilen in
+ * der uebergebenen Reihenfolge zurueckgibt und der Positions-Trigger sie
+ * in dieser Reihenfolge durchnummeriert.
+ *
+ * `accepted` kommt hier von aussen und ist NICHT immer true: Zeilen, deren
+ * Zuordnung unsicher ist, kommen ungehakt in den Pruef-Schritt. Das ist der
+ * Kern der Lehre aus der Messung — ein falscher Treffer, der schon
+ * vorangehakt ist, wird uebersehen.
+ */
+export async function addLines(
+  lines: readonly NewIntakeLine[],
+): Promise<IntakeResult<readonly IntakeLine[]>> {
+  if (lines.length === 0) return { ok: true, data: [] };
+
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("intake_lines")
+    .insert(
+      lines.map((l) => ({
+        batch_id: l.batchId,
+        raw_text: l.rawText,
+        product_id: l.productId,
+        match_confidence: l.matchConfidence,
+        quantity: l.quantity,
+        unit: l.unit,
+        storage: l.storage,
+        suggested_expires_at: l.suggestedExpiresAt,
+        expiry_source: l.expirySource,
+        accepted: l.accepted ?? true,
+        price_chf: l.priceChf ?? null,
+      })),
+    )
+    .select(LINE_COLUMNS);
+
+  if (error) return failure(error);
+  return { ok: true, data: (data as unknown as LineRow[]).map(toLine) };
 }
 
 export async function updateLine(
