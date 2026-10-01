@@ -24,6 +24,31 @@ import {
  * manipuliert sein.
  */
 
+/**
+ * Ein Fehler, der nicht als Ergebnis zurueckkam, sondern geworfen wurde.
+ *
+ * Er wird ins Serverprotokoll geschrieben — auf Vercel unter Logs zu sehen —
+ * und als Satz zurueckgegeben, statt die Server-Aktion scheitern zu lassen.
+ * Scheitert sie, ersetzt Next.js die Meldung in der Produktion durch eine
+ * allgemeine, und die eigentliche Ursache ist nirgends mehr zu finden.
+ *
+ * So wurde der erste echte Fehler gefunden: Ein fehlender Schluessel im
+ * Admin-Client warf eine Ausnahme mit einem klaren Satz — den aber niemand
+ * zu sehen bekam, weil der Dialog stattdessen endlos lud.
+ */
+function unerwartet(
+  wo: string,
+  error: unknown,
+): { readonly ok: false; readonly message: string } {
+  console.error(`[${wo}]`, error);
+  return {
+    ok: false,
+    message:
+      "Das hat auf dem Server nicht geklappt. Versuch es nochmal, oder tippe " +
+      "den Namen in der Schnelleingabe ein.",
+  };
+}
+
 export type ScanResult =
   | { readonly ok: true; readonly outcome: ScanOutcome }
   | { readonly ok: false; readonly message: string };
@@ -62,13 +87,18 @@ export async function scanAction(input: {
   const k = await kontext();
   if ("error" in k) return { ok: false, message: k.error };
 
-  const result = await captureScan({
-    householdId: k.householdId,
-    batchId: k.batchId,
-    ean: input.ean,
-    storage: input.storage ?? null,
-    offSuggestion: input.offSuggestion ?? null,
-  });
+  let result: Awaited<ReturnType<typeof captureScan>>;
+  try {
+    result = await captureScan({
+      householdId: k.householdId,
+      batchId: k.batchId,
+      ean: input.ean,
+      storage: input.storage ?? null,
+      offSuggestion: input.offSuggestion ?? null,
+    });
+  } catch (error) {
+    return unerwartet("scanAction", error);
+  }
 
   if (!result.ok) return { ok: false, message: result.message };
   if (result.data.kind === "added") revalidatePath("/erfassen");
@@ -107,20 +137,25 @@ export async function scanZuordnenAction(input: {
   const k = await kontext();
   if ("error" in k) return { ok: false, message: k.error };
 
-  const result = await resolveUnknownScan({
-    householdId: k.householdId,
-    batchId: k.batchId,
-    ean: input.ean,
-    name,
-    categoryId: input.categoryId,
-    storage: input.storage ?? null,
-    priceChf:
-      typeof input.priceChf === "number" &&
-      Number.isFinite(input.priceChf) &&
-      input.priceChf >= 0
-        ? input.priceChf
-        : null,
-  });
+  let result: Awaited<ReturnType<typeof resolveUnknownScan>>;
+  try {
+    result = await resolveUnknownScan({
+      householdId: k.householdId,
+      batchId: k.batchId,
+      ean: input.ean,
+      name,
+      categoryId: input.categoryId,
+      storage: input.storage ?? null,
+      priceChf:
+        typeof input.priceChf === "number" &&
+        Number.isFinite(input.priceChf) &&
+        input.priceChf >= 0
+          ? input.priceChf
+          : null,
+    });
+  } catch (error) {
+    return unerwartet("scanZuordnenAction", error);
+  }
 
   if (!result.ok) return { ok: false, message: result.message };
   revalidatePath("/erfassen");

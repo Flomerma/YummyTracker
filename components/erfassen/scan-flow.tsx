@@ -44,6 +44,19 @@ export interface CategoryOption {
  * Katalog etwas wissen.
  */
 
+/*
+ * Die Saetze, wenn eine Server-Aktion wirft. Bewusst ohne technischen
+ * Fehlertext: In der Produktion ersetzt Next.js die Meldung ohnehin durch
+ * eine allgemeine, und "Error: …" hilft niemandem am Kuehlschrank.
+ */
+const SPEICHERN_FEHLGESCHLAGEN =
+  "Das wurde nicht gespeichert — auf dem Server ging etwas schief. " +
+  "Versuch es nochmal, oder tippe den Namen in der Schnelleingabe ein.";
+
+const NACHSCHLAGEN_FEHLGESCHLAGEN =
+  "Der Code konnte nicht nachgeschlagen werden. Versuch es nochmal, oder " +
+  "tippe den Namen in der Schnelleingabe ein.";
+
 type Step =
   | { kind: "scanning" }
   | { kind: "working"; message: string }
@@ -130,7 +143,16 @@ export function ScanFlow({
 
   async function handleDetected(ean: string) {
     setStep({ kind: "working", message: "Wird nachgeschlagen …" });
+    // Aus demselben Grund wie beim Speichern: Wirft die Server-Aktion, darf
+    // der Bildschirm nicht bei "Wird nachgeschlagen …" stehen bleiben.
+    try {
+      await auswerten(ean);
+    } catch {
+      setStep({ kind: "error", message: NACHSCHLAGEN_FEHLGESCHLAGEN });
+    }
+  }
 
+  async function auswerten(ean: string) {
     const first = await scanAction({ ean });
     if (!first.ok) {
       setStep({ kind: "error", message: first.message });
@@ -169,13 +191,24 @@ export function ScanFlow({
   async function assign() {
     if (step.kind !== "assign") return;
     setSaving(true);
-    const result = await scanZuordnenAction({
-      ean: step.ean,
-      name: step.name,
-      categoryId: step.categoryId,
-      priceChf: parsePrice(step.price),
-    });
-    setSaving(false);
+    // Eine Server-Aktion kann nicht nur ein Ergebnis mit ok: false liefern,
+    // sondern auch WERFEN — wenn auf dem Server etwas Unerwartetes passiert
+    // oder die Verbindung abreisst. Ohne diesen Block blieb der Dialog dann
+    // fuer immer bei "Wird gespeichert …" stehen, ohne dass etwas erfasst
+    // wurde. Genau so ist es beim ersten echten Einsatz passiert.
+    let result: Awaited<ReturnType<typeof scanZuordnenAction>>;
+    try {
+      result = await scanZuordnenAction({
+        ean: step.ean,
+        name: step.name,
+        categoryId: step.categoryId,
+        priceChf: parsePrice(step.price),
+      });
+    } catch {
+      result = { ok: false, message: SPEICHERN_FEHLGESCHLAGEN };
+    } finally {
+      setSaving(false);
+    }
 
     if (!result.ok) {
       setStep({ kind: "error", message: result.message });
@@ -324,7 +357,12 @@ export function ScanFlow({
           variant="ghost"
           onClick={() => setStep({ kind: "scanning" })}
         >
-          Überspringen
+          {/*
+            Nicht "Überspringen": Das klang nach "erfassen, nur ohne zu
+            merken" — und beim ersten echten Einsatz wurde es genau so
+            verstanden. Der Knopf verwirft den Artikel.
+          */}
+          Nicht erfassen
         </Button>
       </div>
     </form>
