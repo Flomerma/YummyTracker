@@ -91,6 +91,13 @@ export async function scanZuordnenAction(input: {
   readonly name: string;
   readonly categoryId: string | null;
   readonly storage?: StorageLocation | null;
+  /**
+   * Preis, den der Nutzer im Dialog gesehen und bestaetigt hat — bei
+   * Waagenetiketten aus dem Code vorbelegt. Nur was hier ankommt, zaehlt in
+   * der Weggeworfen-Auswertung; eine abgeleitete Zahl wandert nie ungesehen
+   * hinein.
+   */
+  readonly priceChf?: number | null;
 }): Promise<ResolveResult> {
   const name = input.name.trim();
   if (name.length === 0) {
@@ -107,6 +114,12 @@ export async function scanZuordnenAction(input: {
     name,
     categoryId: input.categoryId,
     storage: input.storage ?? null,
+    priceChf:
+      typeof input.priceChf === "number" &&
+      Number.isFinite(input.priceChf) &&
+      input.priceChf >= 0
+        ? input.priceChf
+        : null,
   });
 
   if (!result.ok) return { ok: false, message: result.message };

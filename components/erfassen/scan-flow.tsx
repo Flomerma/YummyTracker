@@ -11,6 +11,7 @@ import { lookupOpenFoodFacts } from "@/lib/data/openfoodfacts";
 import type { ScanOutcome } from "@/lib/services/scan";
 
 import { BarcodeScanner } from "./barcode-scanner";
+import { parsePrice } from "./scanner-logic";
 
 export interface CategoryOption {
   readonly id: string;
@@ -56,6 +57,8 @@ type Step =
       categoryId: string | null;
       note: string | null;
       fromOff: boolean;
+      /** Als Text, damit das Feld leer sein darf. Vorbelegt beim Waagenetikett. */
+      price: string;
     }
   | { kind: "error"; message: string };
 
@@ -99,15 +102,14 @@ export function ScanFlow({
           title: "Waagenetikett von der Theke",
           name: "",
           categoryId: null,
-          // Der Preis steckt im Code. Er ist ein Hinweis, keine Tatsache —
-          // und wandert deshalb nicht still in die Auswertung.
           note:
             "Einmal benennen — ab dann erkennt die App diesen Artikel wieder, " +
-            "egal wie schwer das nächste Stück ist." +
-            (outcome.priceChf !== null
-              ? ` Preis laut Etikett: CHF ${outcome.priceChf.toFixed(2)}.`
-              : ""),
+            "egal wie schwer das nächste Stück ist.",
           fromOff: false,
+          // Der Preis steckt im Code und wird vorbelegt — aber sichtbar und
+          // aenderbar. Er zaehlt in der Weggeworfen-Auswertung, und eine
+          // falsch gelesene Zahl soll dort nicht ungesehen landen.
+          price: outcome.priceChf !== null ? outcome.priceChf.toFixed(2) : "",
         };
       case "unknown":
         return {
@@ -121,6 +123,7 @@ export function ScanFlow({
               "Haltbarkeit. Beim nächsten Scan geht es dann ohne Nachfrage."
             : "Einmal benennen — beim nächsten Scan erkennt die App es wieder.",
           fromOff: outcome.suggestion !== null,
+          price: "",
         };
     }
   }
@@ -170,6 +173,7 @@ export function ScanFlow({
       ean: step.ean,
       name: step.name,
       categoryId: step.categoryId,
+      priceChf: parsePrice(step.price),
     });
     setSaving(false);
 
@@ -278,6 +282,20 @@ export function ScanFlow({
             </option>
           ))}
         </Select>
+      </Field>
+
+      <Field
+        label="Preis (CHF)"
+        htmlFor="scan-preis"
+        hint="Freiwillig. Zählt, wenn etwas weggeworfen wird."
+      >
+        <Input
+          id="scan-preis"
+          inputMode="decimal"
+          value={step.price}
+          onChange={(e) => setStep({ ...step, price: e.target.value })}
+          placeholder="z. B. 4.50"
+        />
       </Field>
 
       {step.fromOff && (

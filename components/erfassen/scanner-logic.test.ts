@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   cameraProblem,
   DETECTOR_UNAVAILABLE,
+  parsePrice,
   createStableReader,
   STABLE_READS_REQUIRED,
 } from "./scanner-logic";
@@ -115,5 +116,28 @@ describe("DETECTOR_UNAVAILABLE", () => {
   it("bietet einen zweiten Versuch und das Eintippen an", () => {
     expect(DETECTOR_UNAVAILABLE.retryLive).toBe(true);
     expect(DETECTOR_UNAVAILABLE.hint).toMatch(/tippe/);
+  });
+});
+
+describe("parsePrice", () => {
+  it("nimmt Punkt und Komma an", () => {
+    expect(parsePrice("4.50")).toBe(4.5);
+    expect(parsePrice("4,50")).toBe(4.5);
+  });
+
+  it("gibt bei leerem Feld null zurueck — der Preis ist freiwillig", () => {
+    expect(parsePrice("")).toBeNull();
+    expect(parsePrice("   ")).toBeNull();
+  });
+
+  it("macht aus Unsinn null statt einer falschen Zahl", () => {
+    // Eine falsche Zahl wuerde still in die Weggeworfen-Auswertung wandern.
+    expect(parsePrice("abc")).toBeNull();
+    expect(parsePrice("-3")).toBeNull();
+    expect(parsePrice("1e9")).toBeNull();
+  });
+
+  it("rundet auf Rappen", () => {
+    expect(parsePrice("4.555")).toBe(4.56);
   });
 });

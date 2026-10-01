@@ -176,3 +176,17 @@ export function liveCameraAvailable(): boolean {
     typeof navigator.mediaDevices?.getUserMedia === "function"
   );
 }
+
+/**
+ * Liest einen Preis aus dem Eingabefeld. Komma und Punkt werden beide
+ * angenommen ("4,50" tippt man in der Schweiz genauso wie "4.50"). Alles,
+ * was keine sinnvolle Zahl ist, ergibt null statt eines falschen Werts.
+ */
+export function parsePrice(raw: string): number | null {
+  const s = raw.trim().replace(",", ".");
+  if (s === "") return null;
+  const n = Number(s);
+  return Number.isFinite(n) && n >= 0 && n < 10_000
+    ? Math.round(n * 100) / 100
+    : null;
+}
