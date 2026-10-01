@@ -134,7 +134,22 @@ export async function lookupOpenFoodFacts(
     const antwort = await fetch(
       `${BASE}/${encodeURIComponent(ean)}.json?fields=${FIELDS}`,
       {
-        headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
+        headers: {
+          Accept: "application/json",
+          // ZWEI Koepfe mit demselben Inhalt, und das ist kein Versehen:
+          //
+          // Browser lassen einen selbst gesetzten User-Agent fallen — das
+          // Feld steht auf der Liste der verbotenen Kopfzeilen. Eine
+          // Anfrage aus dem Browser waere damit anonym unterwegs und wuerde
+          // haerter gedrosselt, ohne dass es auffaellt.
+          //
+          // Open Food Facts erlaubt fuer genau diesen Fall X-User-Agent und
+          // wertet ihn gleichwertig aus. Der gewoehnliche Kopf bleibt
+          // trotzdem gesetzt: Laeuft derselbe Aufruf einmal serverseitig,
+          // greift dort er.
+          "User-Agent": USER_AGENT,
+          "X-User-Agent": USER_AGENT,
+        },
         signal: AbortSignal.timeout(OFF_TIMEOUT_MS),
         // Produktstammdaten aendern sich nicht stuendlich. Der Browser
         // darf die Antwort behalten; der Next-eigene Zwischenspeicher

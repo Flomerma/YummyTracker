@@ -341,6 +341,21 @@ export async function resolveUnknownScan(input: {
   readonly categoryId: string | null;
   readonly productId?: string | null;
   readonly storage?: StorageLocation | null;
+  /**
+   * Der Preis, falls bekannt — bei einem Waagenetikett aus dem Code
+   * abgeleitet (siehe lib/domain/rcn.ts).
+   *
+   * Er landet auf der Zeile und spaeter beim Bestandsartikel, weil er die
+   * Grundlage der Weggeworfen-Auswertung in Franken ist (Konzept, Stufe 4).
+   * Ohne dieses Feld waere der eingedruckte Preis zwar erkannt, aber
+   * weggeworfen — und die Auswertung muesste ohne Betraege auskommen.
+   *
+   * Bewusst eine Eingabe und keine Ableitung an dieser Stelle: Der Nutzer
+   * hat den Dialog gesehen und bestaetigt. Eine aus einer Annahme
+   * abgeleitete Zahl soll nicht hinter seinem Ruecken in die Auswertung
+   * wandern.
+   */
+  readonly priceChf?: number | null;
 }): Promise<HouseholdResult<IntakeLine>> {
   const guard = await guardBatch(input.householdId, input.batchId);
   if (!guard.ok) return guard;
@@ -403,5 +418,6 @@ export async function resolveUnknownScan(input: {
       defaultStorage: ort,
     },
     ort,
+    { priceChf: input.priceChf ?? null },
   );
 }
