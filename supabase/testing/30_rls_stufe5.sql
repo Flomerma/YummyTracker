@@ -201,6 +201,17 @@ select test.ok(
     where normalized_name = 'beats spezialmischung') = false,
   'Die Pruefmarkierung bleibt aus — eine Selbstbescheinigung waere wertlos');
 
+-- Und sie laesst sich auch nicht setzen. Die Anwendung schrieb anfangs
+-- verified: false mit — und scheiterte genau daran in Produktion, weil die
+-- Spalte nicht freigegeben ist. Das ist richtig so; der Code wurde
+-- angepasst (siehe lib/data/catalog-grants.test.ts).
+select test.denied(
+  format('insert into public.products
+            (name, normalized_name, default_unit, source, household_id, verified)
+          values (''Selbst geprueft'', ''selbst geprueft'', ''piece'', ''user'', %L::uuid, true)',
+         (select v from test.state where k = 'hb')),
+  'B kann ein eigenes Produkt nicht als geprueft markieren');
+
 select test.denied(
   'insert into public.products
      (name, normalized_name, default_unit, source, household_id)

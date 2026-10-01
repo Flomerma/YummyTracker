@@ -555,7 +555,12 @@ export async function createHouseholdProduct(
       default_unit: input.defaultUnit,
       default_storage: input.defaultStorage,
       source: "user",
-      verified: false,
+      // KEIN `verified`: Die Spalte ist fuer Mitglieder bewusst nicht
+      // freigegeben (Migration 20261001150000) — eine Selbstbescheinigung
+      // waere wertlos, und der Vorgabewert ist ohnehin false. Steht sie
+      // hier, lehnt PostgreSQL die ganze Anweisung ab ("permission denied
+      // for table products"). Genau das ist in Produktion passiert;
+      // lib/data/catalog-grants.test.ts haelt beide Seiten jetzt zusammen.
     })
     .select(PRODUCT_COLUMNS)
     .single();
