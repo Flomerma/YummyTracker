@@ -7,7 +7,9 @@
     "node": "24.x"
   },
   "scripts": {
+    "predev": "npm run wasm:copy",
     "dev": "next dev --turbopack",
+    "prebuild": "npm run wasm:copy",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
@@ -23,12 +25,14 @@
     "db:new": "supabase migration new",
     "db:push": "supabase db push --linked",
     "db:diff": "supabase db diff --linked",
-    "db:types": "supabase gen types --linked --lang typescript --schema public > lib/data/database.types.ts"
+    "db:types": "supabase gen types --linked --lang typescript --schema public > lib/data/database.types.ts",
+    "wasm:copy": "node scripts/copy-zxing-wasm.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
     "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.117.1",
+    "barcode-detector": "3.2.2",
     "next": "15.5.26",
     "react": "19.3.0",
     "react-dom": "19.3.0"

@@ -42,8 +42,14 @@ export default defineConfig({
         test: {
           name: { label: "ui", color: "cyan" },
           environment: "jsdom",
+          // Auch *.test.ts: Reine Hilfslogik neben einer Komponente (etwa
+          // components/erfassen/scanner-logic.ts) hat kein JSX und damit eine
+          // .ts-Testdatei. Ohne diese Muster wuerde sie in `npm test`
+          // stillschweigend uebersprungen — alles gruen, nichts geprueft.
           include: [
+            "app/**/*.test.ts",
             "app/**/*.test.tsx",
+            "components/**/*.test.ts",
             "components/**/*.test.tsx",
             "tests/ui/**/*.test.tsx",
           ],

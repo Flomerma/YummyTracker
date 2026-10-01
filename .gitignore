@@ -53,3 +53,8 @@ supabase/.env
 docs/messung/bons/
 *kassenzettel*
 *kassenbon*
+
+# Barcode-Erkennung, wird bei jedem Bau aus node_modules kopiert
+# (scripts/copy-zxing-wasm.mjs). Nicht einchecken: Sie muss exakt zur
+# installierten Version passen, und eine eingecheckte Kopie veraltet.
+public/wasm/
