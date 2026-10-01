@@ -36,8 +36,10 @@ const GUELTIGE_LAENGEN = new Set([8, 12, 13, 14]);
 export type EanKind =
   /** Global vergeben — eine Abfrage kann etwas finden. */
   | "global"
-  /** Ladenintern (Waagenetikett). Loest nirgends auf, Abfrage sinnlos. */
+  /** Ladenintern (Waagenetikett). Loest in keiner Datenbank auf. */
   | "restricted"
+  /** Buch, Zeitschrift, Gutschein — kein Lebensmittel. */
+  | "non-food"
   /** Pruefziffer stimmt nicht — die Kamera hat sich verlesen. */
   | "invalid";
 
@@ -112,6 +114,30 @@ export function isRestrictedCirculation(
 }
 
 /**
+ * Praefixe, hinter denen nie ein Lebensmittel steckt.
+ *
+ * Wer am Regal versehentlich ein Buch oder einen Gutschein scannt, soll
+ * das sofort gesagt bekommen — und nicht zwei Sekunden auf eine Abfrage
+ * warten, die in einer Lebensmitteldatenbank nichts finden kann.
+ */
+const NICHT_LEBENSMITTEL: readonly (readonly [number, number])[] = [
+  [977, 977], // ISSN, Zeitschriften
+  [978, 979], // ISBN, Buecher und Musikalien
+  [980, 980], // Rueckerstattungsbelege
+  [981, 984], // Gutscheine
+  [990, 999], // Gutscheine
+  [950, 952], // GS1 global office, keine Handelsware
+];
+
+function istNichtLebensmittel(code: string): boolean {
+  if (code.length < 13) return false;
+  const praefix = Number(code.slice(0, 3));
+  return NICHT_LEBENSMITTEL.some(
+    ([von, bis]) => praefix >= von && praefix <= bis,
+  );
+}
+
+/**
  * Was ist das fuer ein Code — und lohnt sich eine Abfrage?
  *
  * Reihenfolge mit Grund: Erst die Pruefziffer, denn ein verlesener Code
@@ -120,7 +146,11 @@ export function isRestrictedCirculation(
  */
 export function classifyEan(raw: string | null | undefined): EanKind {
   if (!isValidEan(raw)) return "invalid";
-  return isRestrictedCirculation(raw) ? "restricted" : "global";
+
+  const code = normalizeEan(raw);
+  if (isRestrictedCirculation(code)) return "restricted";
+  if (istNichtLebensmittel(code)) return "non-food";
+  return "global";
 }
 
 /**

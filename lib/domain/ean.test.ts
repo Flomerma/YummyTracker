@@ -133,3 +133,33 @@ describe("eanRegistry", () => {
     expect(eanRegistry("96385074")).toBeNull();
   });
 });
+
+describe("classifyEan — was gar kein Lebensmittel ist", () => {
+  function mitPruefziffer(ohne: string): string {
+    return `${ohne}${eanCheckDigit(ohne)}`;
+  }
+
+  it("erkennt Buecher an der ISBN", () => {
+    // Wer am Regal versehentlich ein Buch scannt, soll das sofort gesagt
+    // bekommen statt zwei Sekunden auf eine Lebensmittelabfrage zu warten.
+    expect(classifyEan(mitPruefziffer("978037342279"))).toBe("non-food");
+    expect(classifyEan(mitPruefziffer("979012345678"))).toBe("non-food");
+  });
+
+  it("erkennt Zeitschriften und Gutscheine", () => {
+    expect(classifyEan(mitPruefziffer("977123456789"))).toBe("non-food");
+    expect(classifyEan(mitPruefziffer("981234567890"))).toBe("non-food");
+    expect(classifyEan(mitPruefziffer("995123456789"))).toBe("non-food");
+  });
+
+  it("haelt Lebensmittel davon getrennt", () => {
+    expect(classifyEan("7613035676497")).toBe("global");
+    expect(classifyEan("4006381333931")).toBe("global");
+  });
+
+  it("prueft weiterhin die Pruefziffer zuerst", () => {
+    const ohne = "978037342279";
+    const falsch = (eanCheckDigit(ohne)! + 1) % 10;
+    expect(classifyEan(`${ohne}${falsch}`)).toBe("invalid");
+  });
+});
